@@ -1,0 +1,28 @@
+<ion-content class="ion-padding fondo-restablecer">
+  <div class="contenedor-restablecer">
+    <ion-card class="tarjeta-restablecer">
+      <ion-card-header>
+        <ion-card-title>Restablecer contraseña</ion-card-title>
+        <ion-card-subtitle>Ingresa tu correo para restablecer tu contraseña</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form (ngSubmit)="enviarRestablecer()" [formGroup]="formularioRestablecerContrasena">
+          <ion-item lines="none">
+            <ion-input formControlName="correo" type="email" placeholder="tuemail@gmail.com"></ion-input>
+          </ion-item>
+
+          <ion-button expand="block" type="submit" [disabled]="formularioRestablecerContrasena.invalid">
+            Enviar enlace de restablecimiento
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-text color="medium">
+      <p class="ion-text-center">
+        ¿Recuerdas tu contraseña? <a href="/inicio-sesion">Inicia sesión</a>
+      </p>
+    </ion-text>
+  </div>
+</ion-content>
