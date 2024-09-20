@@ -21,7 +21,6 @@ export class RestablecerContrasenaPage implements OnInit {
   enviarRestablecer() {
     if (this.formularioRestablecerContrasena.valid) {
       console.log('Correo enviado para restablecer:', this.formularioRestablecerContrasena.value);
-      // Aquí iría la lógica para enviar el enlace de restablecimiento de contraseña
     }
   }
 }
