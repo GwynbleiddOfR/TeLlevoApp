@@ -1,0 +1,101 @@
+.fondo-programar {
+    --background: var(--ion-background-color);
+}
+
+.contenedor-programar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.tarjeta-programar {
+    margin: auto;
+    width: 100%;
+    max-width: 400px;
+    --background: var(--ion-card-background);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+ion-card-title {
+    font-size: 1.4rem;
+    text-align: center;
+    color: var(--ion-text-color);
+}
+
+ion-item {
+    --background: transparent;
+    margin-bottom: 15px;
+}
+
+ion-label {
+    color: var(--ion-text-color);
+}
+
+ion-input,
+ion-datetime {
+    --padding-start: 10px;
+    --border-radius: 8px;
+    border: 1px solid var(--ion-border-color, #ddd);
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    .fondo-programar {
+        --background: #ffffff;
+    }
+
+    .tarjeta-programar {
+        --background: #ffffff;
+    }
+
+    ion-card-title {
+        color: #333;
+    }
+
+    ion-label {
+        color: #333;
+    }
+
+    ion-input,
+    ion-datetime {
+        --background: #ffffff;
+        --border-color: #ddd;
+    }
+
+    ion-button {
+        --background: black;
+        color: #ffffff;
+    }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .fondo-programar {
+        --background: #121212;
+    }
+
+    .tarjeta-programar {
+        --background: #1e1e1e;
+    }
+
+    ion-card-title {
+        color: #ffffff;
+    }
+
+    ion-label {
+        color: #ffffff;
+    }
+
+    ion-input,
+    ion-datetime {
+        --background: #333333;
+        --border-color: #444;
+    }
+
+    ion-button {
+        --background: #ffffff;
+        color: black;
+    }
+}
