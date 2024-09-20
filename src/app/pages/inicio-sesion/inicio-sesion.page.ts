@@ -11,7 +11,6 @@ export class InicioSesionPage implements OnInit {
   formularioInicioSesion: FormGroup;
 
   constructor(private fb: FormBuilder, private navCtrl: NavController) {
-    // Inicializar formulario vacío en el constructor para evitar el error
     this.formularioInicioSesion = this.fb.group({});
   }
 
@@ -25,7 +24,7 @@ export class InicioSesionPage implements OnInit {
   iniciarSesion() {
     if (this.formularioInicioSesion.valid) {
       console.log('Formulario enviado:', this.formularioInicioSesion.value);
-      // Lógica de autenticación aquí
+      // Aqui vamo a programar q pasa cuando se inicie sesion
     }
   }
 }

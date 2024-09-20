@@ -1,4 +1,3 @@
-/* Estilos generales */
 .fondo-inicio-sesion {
     --background: #f9f9f9;
 }
@@ -49,53 +48,53 @@ a:hover {
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     .fondo-inicio-sesion {
-        --background: #f9f9f9; /* Fondo claro para el contenedor */
+        --background: #f9f9f9;
     }
     
     .tarjeta-inicio-sesion {
-        --background: #ffffff; /* Fondo blanco para la tarjeta */
+        --background: #ffffff;
     }
 
     ion-card-title {
-        color: #333; /* Texto oscuro para el título de la tarjeta */
+        color: #333;
     }
 
     ion-card-subtitle {
-        color: #666; /* Texto gris para el subtítulo */
+        color: #666;
     }
 
     ion-button {
-        --background: black; /* Fondo azul para el botón */
+        --background: black;
     }
 
     a {
-        color: black; /* Color del enlace */
+        color: black;
     }
 }
 
 /* Modo oscuro */
 @media (prefers-color-scheme: dark) {
     .fondo-inicio-sesion {
-        --background: #121212; /* Fondo oscuro para el contenedor */
+        --background: #121212;
     }
     
     .tarjeta-inicio-sesion {
-        --background: #1e1e1e; /* Fondo oscuro para la tarjeta */
+        --background: #1e1e1e;
     }
 
     ion-card-title {
-        color: #ffffff; /* Texto blanco para el título de la tarjeta */
+        color: #ffffff;
     }
 
     ion-card-subtitle {
-        color: #bbbbbb; /* Texto gris claro para el subtítulo */
+        color: #bbbbbb;
     }
 
     ion-button {
-        --background: #ffffff; /* Fondo azul para el botón */
+        --background: #ffffff;
     }
 
     a {
-        color: #ffffff; /* Color del enlace */
+        color: #ffffff;
     }
 }
