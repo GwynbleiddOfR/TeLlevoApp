@@ -14,7 +14,7 @@ export class ProgramarViajePage implements OnInit {
 
   ngOnInit() {
     this.formularioViaje = this.fb.group({
-      horaSalida: [new Date().toISOString(), Validators.required], // Fecha actual en ISO 8601
+      horaSalida: [new Date().toISOString(), Validators.required],
       destino: ['', [Validators.required, Validators.minLength(3)]],
       costo: ['', [Validators.required, Validators.min(1)]],
     });
