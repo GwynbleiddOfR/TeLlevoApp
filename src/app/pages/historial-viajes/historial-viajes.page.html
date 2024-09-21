@@ -1,0 +1,22 @@
+<ion-content class="ion-padding fondo-historial">
+  <div class="contenedor-historial">
+    <ion-card class="tarjeta-historial">
+      <ion-card-header>
+        <ion-card-title>Historial de viajes</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let viaje of viajes">
+            <ion-label>
+              <h2>Fecha: {{ viaje.fecha | date }}</h2>
+              <p>Costo: ${{ viaje.costo }}</p>
+              <p>Patente: {{ viaje.patente }}</p>
+              <p>Chofer: {{viaje.chofer}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
