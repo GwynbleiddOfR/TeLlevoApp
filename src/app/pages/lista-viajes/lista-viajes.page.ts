@@ -11,5 +11,5 @@ export class ListaViajesPage implements OnInit {
 
   ngOnInit() {
   }
-
+  placeholders = Array(6).fill({});
 }
