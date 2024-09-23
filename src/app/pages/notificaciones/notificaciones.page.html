@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Notificaciones</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Lista de Notificaciones o Mensajes -->
+  <ion-list>
+    <ion-item *ngFor="let placeholder of placeholders">
+      <ion-avatar slot="start">
+        <!-- Placeholder para la imagen del remitente -->
+        <div class="placeholder-avatar"></div>
+      </ion-avatar>
+
+      <ion-label>
+        <!-- Placeholder para el título o remitente del mensaje -->
+        <div class="placeholder-text placeholder-title"></div>
+        <!-- Placeholder para el contenido del mensaje -->
+        <div class="placeholder-text placeholder-message"></div>
+        <!-- Placeholder para la fecha del mensaje -->
+        <div class="placeholder-text placeholder-date"></div>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
