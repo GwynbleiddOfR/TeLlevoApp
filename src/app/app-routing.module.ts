@@ -19,6 +19,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/ajustes/ajustes.module').then(m => m.AjustesPageModule)
   },
 
+  {
+    path: 'historial-viajes',
+    loadChildren: () => import('./pages/historial-viajes/historial-viajes.module').then(m => m.HistorialViajesPageModule)
+  },
+
 ];
 
 @NgModule({

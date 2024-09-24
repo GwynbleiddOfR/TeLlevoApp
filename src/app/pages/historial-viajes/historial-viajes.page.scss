@@ -1,0 +1,94 @@
+.fondo-historial {
+    --background: var(--ion-background-color);
+}
+
+.contenedor-historial {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.tarjeta-historial {
+    margin: auto;
+    width: 100%;
+    max-width: 400px;
+    --background: var(--ion-card-background);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+}
+
+ion-card-title {
+    font-size: 1.4rem;
+    text-align: center;
+    color: var(--ion-text-color);
+}
+
+ion-item {
+    --background: transparent;
+    border-bottom: 1px solid var(--ion-border-color, #ddd);
+    margin-bottom: 10px;
+}
+
+ion-label h2 {
+    font-size: 1.2rem;
+    color: var(--ion-text-color);
+}
+
+ion-label p {
+    color: var(--ion-text-color, #666);
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+    .fondo-historial {
+        --background: #f9f9f9;
+    }
+
+    .tarjeta-historial {
+        --background: #ffffff;
+    }
+
+    ion-card-title {
+        color: #333; 
+    }
+
+    ion-item {
+        border-bottom-color: #ddd;
+    }
+
+    ion-label h2 {
+        color: #333;
+    }
+
+    ion-label p {
+        color: #666;
+    }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+    .fondo-historial {
+        --background: #121212;
+    }
+
+    .tarjeta-historial {
+        --background: #1e1e1e;
+    }
+
+    ion-card-title {
+        color: #ffffff;
+    }
+
+    ion-item {
+        border-bottom-color: #444;
+    }
+
+    ion-label h2 {
+        color: #ffffff;
+    }
+
+    ion-label p {
+        color: #bbbbbb;
+    }
+}
