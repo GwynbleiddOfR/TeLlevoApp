@@ -29,6 +29,11 @@ const routes: Routes = [
     path: 'inicio-sesion',
     loadChildren: () => import('./pages/inicio-sesion/inicio-sesion.module').then(m => m.InicioSesionPageModule)
   },
+  {
+    path: 'lista-viajes',
+    loadChildren: () => import('./pages/lista-viajes/lista-viajes.module').then(m => m.ListaViajesPageModule)
+  },
+
 ];
 
 @NgModule({

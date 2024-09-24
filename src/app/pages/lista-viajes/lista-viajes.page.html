@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Viajes Disponibles</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Filtro Placeholder -->
+  <ion-segment>
+    <ion-segment-button>
+      <div class="placeholder-text placeholder-segment"></div>
+    </ion-segment-button>
+    <ion-segment-button>
+      <div class="placeholder-text placeholder-segment"></div>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de Viajes Placeholder -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size-md="6" size-sm="12" *ngFor="let placeholder of placeholders">
+        <ion-card>
+          <!-- Placeholder de Imagen -->
+          <div class="placeholder-image"></div>
+
+          <ion-card-header>
+            <ion-card-title>
+              <div class="placeholder-text placeholder-title"></div>
+            </ion-card-title>
+            <ion-card-subtitle>
+              <div class="placeholder-text placeholder-subtitle"></div>
+            </ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="placeholder-text placeholder-description"></div>
+            <div class="placeholder-text placeholder-description"></div>
+
+            <ion-item lines="none">
+              <ion-label>Distancia:</ion-label>
+              <div class="placeholder-badge"></div>
+            </ion-item>
+          </ion-card-content>
+
+          <!-- Botón Placeholder -->
+          <ion-button expand="block" disabled>
+            <div class="placeholder-text placeholder-button"></div>
+          </ion-button>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Placeholder del Mapa -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ubicación de Vehículos Disponibles</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="placeholder-map"></div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
