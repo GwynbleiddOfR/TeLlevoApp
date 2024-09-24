@@ -62,6 +62,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/registro-usuario/registro-usuario.module').then(m => m.RegistroUsuarioPageModule)
   },
 
+  {
+    path: 'restablecer-contrasena',
+    loadChildren: () => import('./pages/restablecer-contrasena/restablecer-contrasena.module').then(m => m.RestablecerContrasenaPageModule)
+  },
+
 ];
 
 @NgModule({
