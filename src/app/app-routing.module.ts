@@ -57,6 +57,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/programar-viaje/programar-viaje.module').then(m => m.ProgramarViajePageModule)
   },
 
+  {
+    path: 'registro-usuario',
+    loadChildren: () => import('./pages/registro-usuario/registro-usuario.module').then(m => m.RegistroUsuarioPageModule)
+  },
+
 ];
 
 @NgModule({
