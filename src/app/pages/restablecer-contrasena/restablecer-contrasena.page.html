@@ -12,7 +12,7 @@
             <ion-input formControlName="correo" type="email" placeholder="tuemail@gmail.com"></ion-input>
           </ion-item>
 
-          <ion-button expand="block" type="submit" [disabled]="formularioRestablecerContrasena.invalid">
+          <ion-button expand="block" type="submit" [disabled]="formularioRestablecerContrasena.invalid" routerLink="/inicio-sesion">
             Enviar enlace de restablecimiento
           </ion-button>
         </form>

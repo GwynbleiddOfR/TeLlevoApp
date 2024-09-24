@@ -18,11 +18,11 @@
             <ion-input formControlName="contrasena" type="password"></ion-input>
           </ion-item>
 
-          <ion-button expand="block" type="submit" [disabled]="formularioInicioSesion.invalid">
+          <ion-button expand="block" type="submit" routerLink="/home">
             Iniciar sesión
           </ion-button>
 
-          <ion-text class="ion-padding" color="medium">
+          <ion-text class="ion-padding" color="medium" routerLink="/restablecer-contrasena">
             <p class="ion-text-center">
               <a href="#">¿Olvidaste tu contraseña?</a>
             </p>
@@ -31,7 +31,7 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-text color="medium">
+    <ion-text color="medium" routerLink="/registro-usuario">
       <p class="ion-text-center">
         ¿No tienes una cuenta? <a href="#">Regístrate</a>
       </p>
