@@ -1,0 +1,36 @@
+<ion-content class="ion-padding fondo-programar" mode="ios">
+  <div class="contenedor-programar">
+    <ion-card class="tarjeta-programar">
+      <ion-card-header>
+        <ion-card-title>Programar viaje</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form (ngSubmit)="confirmarViaje()" [formGroup]="formularioViaje">
+          
+          <ion-item lines="none">
+            <ion-icon name="time-outline" slot="start"></ion-icon>
+            <ion-label for="horaSalida" position="stacked">Hora de salida</ion-label>
+            <ion-datetime id="horaSalida" formControlName="horaSalida" presentation="time"></ion-datetime>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-icon name="location-outline" slot="start"></ion-icon>
+            <ion-label for="destino" position="stacked">Destino</ion-label>
+            <ion-input id="destino" formControlName="destino" placeholder="Ingresa el destino"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-icon name="cash-outline" slot="start"></ion-icon>
+            <ion-label for="costo" position="stacked">Costo por pasajero</ion-label>
+            <ion-input id="costo" formControlName="costo" type="number" placeholder="Ej: 5000"></ion-input>
+          </ion-item>
+
+          <ion-button class="ion-padding" expand="block" type="submit" [disabled]="formularioViaje.invalid">
+            Confirmar y publicar viaje
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
