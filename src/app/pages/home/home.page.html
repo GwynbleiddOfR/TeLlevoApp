@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Resumen del propósito de la aplicación -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        Bienvenido a la App de Movilización Estudiantil
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Esta aplicación te ayuda a coordinar viajes con otros estudiantes. Ya sea que tengas tu propio vehículo o necesites un viaje, ¡tenemos opciones para ti!
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Botones para alumnos con movilización propia o que necesitan movilización -->
+  <div class="button-group">
+    <ion-button expand="block" color="primary">
+      Tengo Movilización Propia
+    </ion-button>
+
+    <ion-button expand="block" color="secondary">
+      Necesito Movilización
+    </ion-button>
+  </div>
+
+  <!-- Opciones para ver viajes disponibles y programar viajes -->
+  <ion-grid>
+    <ion-row>
+      <!-- Opción para ver viajes disponibles -->
+      <ion-col size="6">
+        <ion-card>
+          <div class="placeholder-image"></div>
+          <ion-card-content>
+            Ver Viajes Disponibles
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Opción para programar un viaje -->
+      <ion-col size="6">
+        <ion-card>
+          <div class="placeholder-image"></div>
+          <ion-card-content>
+            Programar un Viaje
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
