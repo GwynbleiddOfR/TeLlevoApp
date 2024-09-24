@@ -40,6 +40,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/notificaciones/notificaciones.module').then(m => m.NotificacionesPageModule)
   },
 
+
+  {
+    path: 'pago',
+    loadChildren: () => import('./pages/pago/pago.module').then(m => m.PagoPageModule)
+  },
+
+
 ];
 
 @NgModule({

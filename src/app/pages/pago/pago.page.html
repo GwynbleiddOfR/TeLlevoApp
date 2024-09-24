@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title text-center>Realizar Pago</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6" size-sm="12">
+        <ion-card mode="md">
+          <ion-card-header>
+            <ion-card-title text-center>Paga con tu Tarjeta</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <form>
+              <!-- Campo para el número de tarjeta -->
+              <ion-item lines="full" class="input-item">
+                <ion-label position="floating">Número de Tarjeta</ion-label>
+                <ion-input name="cardNumber" type="tel" inputmode="numeric" maxlength="19" required></ion-input>
+                <ion-icon slot="end" name="card-outline"></ion-icon>
+              </ion-item>
+
+              <!-- Fila con Expiración y CVC -->
+              <ion-row class="aligned-inputs">
+                <ion-col size="6">
+                  <ion-item lines="none" class="input-item">
+                    <ion-label position="floating">Expiración (MM/AA)</ion-label>
+                    <ion-input name="expDate" type="text" inputmode="numeric" maxlength="5" required></ion-input>
+                  </ion-item>
+                </ion-col>
+
+                <ion-col size="6">
+                  <ion-item lines="none" class="input-item">
+                    <ion-label position="floating">CVC</ion-label>
+                    <ion-input name="cvc" type="tel" inputmode="numeric" maxlength="3" required></ion-input>
+                    <ion-icon slot="end" name="lock-closed-outline"></ion-icon>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <!-- Botón de pago -->
+              <ion-button expand="block" color="primary" type="submit" [disabled]="">Pagar Ahora</ion-button>
+            </form>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
