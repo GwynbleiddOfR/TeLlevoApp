@@ -24,6 +24,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/historial-viajes/historial-viajes.module').then(m => m.HistorialViajesPageModule)
   },
 
+
+  {
+    path: 'inicio-sesion',
+    loadChildren: () => import('./pages/inicio-sesion/inicio-sesion.module').then(m => m.InicioSesionPageModule)
+  },
 ];
 
 @NgModule({
