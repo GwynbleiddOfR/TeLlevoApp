@@ -1,5 +1,5 @@
-<ion-app mode="ios">
-  <ion-menu content-id="main-content">
+<ion-app>
+  <ion-menu content-id="main-content" mode="ios">
     <ion-header>
       <ion-toolbar>
         <ion-title>Menú</ion-title>
@@ -37,7 +37,7 @@
     </ion-content>
   </ion-menu>
 
-  <ion-header *ngIf="!isIniciarSesionPage()">
+  <ion-header *ngIf="!isIniciarSesionPage()" mode="md">
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-button (click)="volverAtras()">
