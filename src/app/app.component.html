@@ -1,4 +1,4 @@
-<ion-app>
+<ion-app mode="ios">
   <ion-menu content-id="main-content">
     <ion-header>
       <ion-toolbar>
@@ -10,7 +10,7 @@
       <ion-list>
         <ion-item button (click)="navigateTo('/perfil-usuario')">
           <ion-icon name="person-outline" slot="start"></ion-icon>
-          <ion-label>Perfil</ion-label>
+          <ion-label>Mi perfil</ion-label>
         </ion-item>
 
         <ion-item button (click)="navigateTo('/registro-usuario')">
@@ -37,7 +37,7 @@
     </ion-content>
   </ion-menu>
 
-  <ion-header>
+  <ion-header *ngIf="!isIniciarSesionPage()">
     <ion-toolbar>
       <ion-buttons slot="start">
         <ion-button (click)="volverAtras()">

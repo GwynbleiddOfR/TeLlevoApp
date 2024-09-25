@@ -29,4 +29,8 @@ export class AppComponent {
       this.router.navigate(['/perfil-usuario']);
     }
   }
+
+  isIniciarSesionPage(): boolean {
+    return this.router.url === '/inicio-sesion';  // Retorna true si la ruta es /login
+  }
 }
