@@ -13,7 +13,7 @@ export class PerfilUsuarioPage implements OnInit {
     apellido: 'Muñoz',
     email: 'simon.munoz@gmail.com',
     telefono: '123456789',
-    rol: 'conductor',
+    vehiculo: 'No aplica',
   };
 
   constructor(private router: Router) { }

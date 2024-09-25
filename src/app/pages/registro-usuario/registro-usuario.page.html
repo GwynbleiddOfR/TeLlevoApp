@@ -2,56 +2,31 @@
   <div class="contenedor-registro">
     <ion-card class="tarjeta-registro">
       <ion-card-header>
-        <ion-card-title>Registro de usuario</ion-card-title>
+        <ion-card-title>Registro de vehículo</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <form (ngSubmit)="registrarUsuario()" [formGroup]="formularioRegistro">
+        <form (ngSubmit)="registrarVehiculo()" [formGroup]="formularioRegistroVehiculo">
           
           <ion-item lines="none">
-            <ion-label for="nombre" position="stacked">Nombre</ion-label>
-            <ion-input class="rounded-input" id="nombre" formControlName="nombre" placeholder="Ingresa tu nombre"></ion-input>
+            <ion-label for="patente" position="stacked">Patente</ion-label>
+            <ion-input id="patente" formControlName="patente" placeholder="Ingresa la patente"></ion-input>
           </ion-item>
 
           <ion-item lines="none">
-            <ion-label for="apellido" position="stacked">Apellido</ion-label>
-            <ion-input id="apellido" formControlName="apellido" placeholder="Ingresa tu apellido"></ion-input>
+            <ion-label for="marca" position="stacked">Marca</ion-label>
+            <ion-input id="marca" formControlName="marca" placeholder="Ingresa la marca"></ion-input>
           </ion-item>
 
           <ion-item lines="none">
-            <ion-label for="email" position="stacked">Email</ion-label>
-            <ion-input id="email" formControlName="email" type="email" placeholder="Ingresa tu email"></ion-input>
+            <ion-label for="modelo" position="stacked">Modelo</ion-label>
+            <ion-input id="modelo" formControlName="modelo" placeholder="Ingresa el modelo"></ion-input>
           </ion-item>
 
           <ion-item lines="none">
-            <ion-label for="telefono" position="stacked">Número de Teléfono</ion-label>
-            <ion-input id="telefono" formControlName="telefono" type="tel" placeholder="Ingresa tu número"></ion-input>
+            <ion-label for="anio" position="stacked">Año</ion-label>
+            <ion-input id="anio" formControlName="anio" type="number" placeholder="Ingresa el año"></ion-input>
           </ion-item>
-
-          <ion-item lines="none">
-            <ion-label for="rol" position="stacked">Rol</ion-label>
-            <ion-select id="rol" formControlName="rol" (ionChange)="onRolChange($event)">
-              <ion-select-option value="pasajero">Pasajero</ion-select-option>
-              <ion-select-option value="conductor">Conductor</ion-select-option>
-            </ion-select>
-          </ion-item>
-
-          <div *ngIf="esConductor">
-            <ion-item lines="none">
-              <ion-label for="patente" position="stacked">Patente</ion-label>
-              <ion-input id="patente" formControlName="patente" placeholder="Ingresa la patente"></ion-input>
-            </ion-item>
-
-            <ion-item lines="none">
-              <ion-label for="marca" position="stacked">Marca</ion-label>
-              <ion-input id="marca" formControlName="marca" placeholder="Ingresa la marca"></ion-input>
-            </ion-item>
-
-            <ion-item lines="none">
-              <ion-label for="modelo" position="stacked">Modelo</ion-label>
-              <ion-input id="modelo" formControlName="modelo" placeholder="Ingresa el modelo"></ion-input>
-            </ion-item>
-          </div>
 
           <ion-button expand="block" type="submit" routerLink="/home">
             Registrar
