@@ -11,7 +11,7 @@ export class PerfilUsuarioPage implements OnInit {
   usuario = {
     nombre: 'Simón',
     apellido: 'Muñoz',
-    email: 'simon.munoz@gmail.com',
+    email: 'biorka_vuelve-xfa@duocuc.cl',
     telefono: '123456789',
     vehiculo: 'No aplica',
   };

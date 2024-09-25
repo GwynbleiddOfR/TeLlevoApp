@@ -9,12 +9,12 @@
       <ion-card-content>
         <form (ngSubmit)="iniciarSesion()" [formGroup]="formularioInicioSesion">
           <ion-item lines="none">
-            <ion-label position="floating">Correo electrónico</ion-label>
-            <ion-input formControlName="correo" type="email"></ion-input>
+            <ion-label position="stacked">Correo electrónico</ion-label>
+            <ion-input formControlName="correo" type="email" placeholder="ejemplo@duocuc.cl"></ion-input>
           </ion-item>
 
           <ion-item lines="none">
-            <ion-label position="floating">Contraseña</ion-label>
+            <ion-label position="stacked">Contraseña</ion-label>
             <ion-input formControlName="contrasena" type="password"></ion-input>
           </ion-item>
 
