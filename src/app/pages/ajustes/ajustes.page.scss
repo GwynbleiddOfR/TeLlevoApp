@@ -1,32 +1,58 @@
+/* Estilos generales */
 ion-content {
+  --background: var(--ion-background-color);
+}
+
+.placeholder-text {
+  background-color: var(--ion-placeholder-background);
+  margin-bottom: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+.placeholder-title {
+  width: 60%;
+  height: 16px;
+}
+
+.placeholder-option {
+  width: 40%;
+  height: 14px;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: var(--ion-placeholder-background);
+  }
+
+  50% {
+    background-color: var(--ion-placeholder-pulse);
+  }
+
+  100% {
+    background-color: var(--ion-placeholder-background);
+  }
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+  ion-content {
     --background: #f5f5f5;
   }
-  
+
   .placeholder-text {
-    background-color: #e0e0e0;
-    margin-bottom: 6px;
-    animation: pulse 1.5s infinite;
+    --ion-placeholder-background: #e0e0e0;
+    --ion-placeholder-pulse: #f0f0f0;
   }
-  
-  .placeholder-title {
-    width: 60%;
-    height: 16px;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: #1e1e1e;
   }
-  
-  .placeholder-option {
-    width: 40%;
-    height: 14px;
+
+  .placeholder-text {
+    --ion-placeholder-background: #555555;
+    --ion-placeholder-pulse: #666666;
   }
-  
-  @keyframes pulse {
-    0% {
-      background-color: #e0e0e0;
-    }
-    50% {
-      background-color: #f0f0f0;
-    }
-    100% {
-      background-color: #e0e0e0;
-    }
-  }
-  
+}

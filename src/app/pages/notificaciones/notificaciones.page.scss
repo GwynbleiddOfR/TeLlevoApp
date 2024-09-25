@@ -1,45 +1,78 @@
 ion-content {
-    --background: #f5f5f5;
+  --background: var(--ion-background-color);
+}
+
+.placeholder-avatar {
+  width: 40px;
+  height: 40px;
+  background-color: var(--ion-placeholder-background);
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+
+.placeholder-text {
+  background-color: var(--ion-placeholder-background);
+  margin-bottom: 6px;
+  animation: pulse 1.5s infinite;
+}
+
+.placeholder-title {
+  width: 60%;
+  height: 16px;
+}
+
+.placeholder-message {
+  width: 90%;
+  height: 14px;
+}
+
+.placeholder-date {
+  width: 40%;
+  height: 12px;
+}
+
+@keyframes pulse {
+  0% {
+      background-color: var(--ion-placeholder-background);
   }
-  
-  .placeholder-avatar {
-    width: 40px;
-    height: 40px;
-    background-color: #e0e0e0;
-    border-radius: 50%;
-    animation: pulse 1.5s infinite;
+
+  50% {
+      background-color: var(--ion-placeholder-pulse);
   }
-  
-  .placeholder-text {
-    background-color: #e0e0e0;
-    margin-bottom: 6px;
-    animation: pulse 1.5s infinite;
+
+  100% {
+      background-color: var(--ion-placeholder-background);
   }
-  
-  .placeholder-title {
-    width: 60%;
-    height: 16px;
+}
+
+/* Modo claro */
+@media (prefers-color-scheme: light) {
+  ion-content {
+      --background: #f5f5f5;
   }
-  
-  .placeholder-message {
-    width: 90%;
-    height: 14px;
-  }
-  
+
+  .placeholder-avatar,
+  .placeholder-text,
+  .placeholder-title,
+  .placeholder-message,
   .placeholder-date {
-    width: 40%;
-    height: 12px;
+      --ion-placeholder-background: #e0e0e0;
+      --ion-placeholder-pulse: #f0f0f0;
   }
-  
-  @keyframes pulse {
-    0% {
-      background-color: #e0e0e0;
-    }
-    50% {
-      background-color: #f0f0f0;
-    }
-    100% {
-      background-color: #e0e0e0;
-    }
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  ion-content {
+      --background: #1e1e1e;
   }
-  
+
+  .placeholder-avatar,
+  .placeholder-text,
+  .placeholder-title,
+  .placeholder-message,
+  .placeholder-date {
+      --ion-placeholder-background: #555555;
+      --ion-placeholder-pulse: #666666;
+  }
+}
