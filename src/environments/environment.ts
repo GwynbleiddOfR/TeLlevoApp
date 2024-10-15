@@ -5,13 +5,15 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 export const environment = {
   production: false,
-  apiKey: "AIzaSyCQ4DyHR3OxRm9g7M2AZF7PIpQYpsSSfsM",
-  authDomain: "tellevoapp-efcd2.firebaseapp.com",
-  projectId: "tellevoapp-efcd2",
-  storageBucket: "tellevoapp-efcd2.appspot.com",
-  messagingSenderId: "874102776496",
-  appId: "1:874102776496:web:0a52c85bd8730e5d131175",
-  measurementId: "G-PLYL9XJN3P"
+  firebaseConfig: {
+    apiKey: "AIzaSyCQ4DyHR3OxRm9g7M2AZF7PIpQYpsSSfsM",
+    authDomain: "tellevoapp-efcd2.firebaseapp.com",
+    projectId: "tellevoapp-efcd2",
+    storageBucket: "tellevoapp-efcd2.appspot.com",
+    messagingSenderId: "874102776496",
+    appId: "1:874102776496:web:0a52c85bd8730e5d131175",
+    measurementId: "G-PLYL9XJN3P"
+  }
 };
 
 /*
@@ -31,5 +33,3 @@ export const environment = {
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 // Initialize Firebase
-const app = initializeApp(environment);
-const analytics = getAnalytics(app);

@@ -7,7 +7,7 @@
       </ion-card-header>
 
       <ion-card-content>
-        <form (ngSubmit)="iniciarSesion()" [formGroup]="formularioInicioSesion">
+        <form (ngSubmit)="iniciarSesion()" [formGroup]="form">
           <ion-item lines="none">
             <ion-label position="stacked">Correo electrónico</ion-label>
             <ion-input formControlName="correo" type="email" placeholder="ejemplo@duocuc.cl"></ion-input>

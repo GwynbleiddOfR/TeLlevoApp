@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavController } from '@ionic/angular';
+import { User } from 'src/app/models/user.model';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -8,23 +10,20 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./inicio-sesion.page.scss'],
 })
 export class InicioSesionPage implements OnInit {
-  formularioInicioSesion: FormGroup;
+  form = new FormGroup({
+    email: new FormControl('',[Validators.required,Validators.email]),
+    password: new FormControl('',[Validators.required])
+  })
 
-  constructor(private fb: FormBuilder, private navCtrl: NavController) {
-    this.formularioInicioSesion = this.fb.group({});
-  }
-
+  firebaseSvc = inject(FirebaseService)
   ngOnInit() {
-    this.formularioInicioSesion = this.fb.group({
-      correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', [Validators.required, Validators.minLength(6)]],
-    });
   }
 
   iniciarSesion() {
-    if (this.formularioInicioSesion.valid) {
-      console.log('Formulario enviado:', this.formularioInicioSesion.value);
-      // Aqui vamo a programar q pasa cuando se inicie sesion
+    if (this.form.valid) {
+      this.firebaseSvc.singIn(this.form.value as User).then(res=> {
+        console.log(res);
+      })
     }
   }
 }
