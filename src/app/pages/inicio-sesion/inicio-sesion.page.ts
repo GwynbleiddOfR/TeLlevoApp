@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -15,7 +15,7 @@ export class InicioSesionPage implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   })
-
+  constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService)
   ngOnInit() {
@@ -26,7 +26,7 @@ export class InicioSesionPage implements OnInit {
       const loading = await this.utilsSvc.loading();
       loading.present();
       this.firebaseSvc.signIn(this.form.value as User).then(res => {
-
+        this.router.navigate(["/home"])
       }).catch(error => {
         console.log(error)
         this.utilsSvc.presentToast({
