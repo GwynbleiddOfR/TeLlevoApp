@@ -7,7 +7,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
+import { ReactiveFormsModule } from '@angular/forms';
 // Firebase
 import { AngularFireModule } from '@angular/fire/compat';
 
@@ -17,8 +17,9 @@ import { AngularFireModule } from '@angular/fire/compat';
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+    ReactiveFormsModule,
   ]
-    ,
+  ,
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })

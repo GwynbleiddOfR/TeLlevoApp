@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NavController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.page.html',
@@ -18,6 +18,7 @@ export class RegistroPage implements OnInit {
     lastname: new FormControl('', [Validators.required, Validators.minLength(3)]),
   })
 
+  constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService)
   ngOnInit() {
@@ -29,6 +30,7 @@ export class RegistroPage implements OnInit {
       loading.present();
       this.firebaseSvc.signUp(this.form.value as User).then(async res => {
         await this.firebaseSvc.updateUser(this.form.value.name)
+        this.router.navigate(["/inicio-sesion"])
       }).catch(error => {
         console.log(error)
         this.utilsSvc.presentToast({

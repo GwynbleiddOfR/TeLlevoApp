@@ -11,13 +11,16 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./inicio-sesion.page.scss'],
 })
 export class InicioSesionPage implements OnInit {
+
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   })
+  
   constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService)
+
   ngOnInit() {
   }
 
@@ -39,9 +42,5 @@ export class InicioSesionPage implements OnInit {
         })
       }).finally(() => { loading.dismiss(); })
     }
-  }
-
-  registrarse() {
-    this.router.navigate(["/registro"]);
   }
 }

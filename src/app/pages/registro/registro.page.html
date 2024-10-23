@@ -2,41 +2,31 @@
   <div class="contenedor-inicio-sesion">
     <ion-card class="tarjeta-inicio-sesion">
       <ion-card-header>
-        <ion-card-title>Iniciar sesión</ion-card-title>
+        <ion-card-title>Registrarse</ion-card-title>
         <ion-card-subtitle>Bienvenido a TeLlevoApp</ion-card-subtitle>
       </ion-card-header>
-
       <ion-card-content>
-        <form (ngSubmit)="registro()" (keypress.enter)="registro()">
+        <form (ngSubmit)="registro()" [formGroup]="form" (keypress.enter)="registro()">
           <ion-item lines="none">
             <ion-label position="stacked">Correo electrónico</ion-label>
-            <ion-input formControlName="email" type="email" placeholder="ejemplo@duocuc.cl"></ion-input>
+            <ion-input type="email" formControlName="email" placeholder="ejemplo@duocuc.cl"></ion-input>
           </ion-item>
-
-          <div class="validator" *ngIf="form.controls.email.errors && form.controls.email.touched">
-            <div *ngIf="form.controls.email.errors?.['required']" class="ion-text-center">El correo es requerido</div>
-            <div *ngIf="form.controls.email.errors?.['email']" class="ion-text-center">Ingrese un correo valido</div>
-          </div>
 
           <ion-item lines="none">
             <ion-label position="stacked">Contraseña</ion-label>
-            <ion-input formControlName="password" type="password"></ion-input>
+            <ion-input type="password" formControlName="password"></ion-input>
           </ion-item>
 
-          <div class="validator" *ngIf="form.controls.password.errors && form.controls.password.touched">
-            <div *ngIf="form.controls.password.errors?.['required']" class="ion-text-center">La contraseña es requerido
-            </div>
-          </div>
           <ion-item lines="none">
             <ion-label position="stacked">Nombre</ion-label>
-            <ion-input formControlName="name" type="text" placeholder="Juan"></ion-input>
+            <ion-input type="text" placeholder="Juan" formControlName="name"></ion-input>
           </ion-item>
           <ion-item lines="none">
             <ion-label position="stacked">Apellido</ion-label>
-            <ion-input formControlName="lastname" type="text" placeholder="Perez"></ion-input>
+            <ion-input type="text" placeholder="Perez" formControlName="lastname"></ion-input>
           </ion-item>
-          <ion-button expand="block" class="submit" type="submit" [disabled]="form.invalid">
-            Iniciar sesión
+          <ion-button expand="block" class="submit" type="submit">
+            Registrarse
           </ion-button>
 
           <ion-text class="ion-padding" color="medium" routerLink="/restablecer-contrasena">
