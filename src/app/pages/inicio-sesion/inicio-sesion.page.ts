@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { NavController } from '@ionic/angular';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -11,19 +12,32 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class InicioSesionPage implements OnInit {
   form = new FormGroup({
-    email: new FormControl('',[Validators.required,Validators.email]),
-    password: new FormControl('',[Validators.required])
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required])
   })
 
-  firebaseSvc = inject(FirebaseService)
+  firebaseSvc = inject(FirebaseService);
+  utilsSvc = inject(UtilsService)
   ngOnInit() {
   }
 
-  iniciarSesion() {
+  async iniciarSesion() {
     if (this.form.valid) {
-      this.firebaseSvc.singIn(this.form.value as User).then(res=> {
-        console.log(res);
-      })
+      const loading = await this.utilsSvc.loading();
+      loading.present();
+      this.firebaseSvc.signIn(this.form.value as User).then(res => {
+
+      }).catch(error => {
+        console.log(error)
+        this.utilsSvc.presentToast({
+          message: error.message,
+          duration: 5000,
+          color: 'primary',
+          position: 'top',
+          icon: 'alert-circle-outline'
+
+        })
+      }).finally(() => { loading.dismiss(); })
     }
   }
 }
