@@ -40,4 +40,8 @@ export class InicioSesionPage implements OnInit {
       }).finally(() => { loading.dismiss(); })
     }
   }
+
+  registrarse() {
+    this.router.navigate(["/registro"]);
+  }
 }
