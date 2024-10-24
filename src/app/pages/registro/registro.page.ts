@@ -14,7 +14,7 @@ export class RegistroPage implements OnInit {
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     lastname: new FormControl('', [Validators.required, Validators.minLength(3)]),
   })
 
@@ -30,6 +30,7 @@ export class RegistroPage implements OnInit {
       loading.present();
       this.firebaseSvc.signUp(this.form.value as User).then(async res => {
         await this.firebaseSvc.updateUser(this.form.value.name)
+        console.log(res)
         this.router.navigate(["/inicio-sesion"])
       }).catch(error => {
         console.log(error)
