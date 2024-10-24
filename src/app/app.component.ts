@@ -31,6 +31,7 @@ export class AppComponent {
   }
 
   isIniciarSesionPage(): boolean {
-    return this.router.url === '/inicio-sesion';  // Retorna true si la ruta es /login
+    return this.router.url === '/inicio-sesion' || this.router.url === '/registro';  // Retorna true si la ruta es /login
+  
   }
 }
