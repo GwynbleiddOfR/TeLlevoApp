@@ -45,4 +45,30 @@ export class RegistroPage implements OnInit {
       }).finally(() => { loading.dismiss(); })
     }
   }
+
+  async setUserInfo(uid: string) {
+    if (this.form.valid) {
+      const loading = await this.utilsSvc.loading();
+      loading.present();
+
+      let path = 'users/$(uid)'
+      delete this.form.value.password;
+
+      this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
+
+        
+        this.router.navigate(["/inicio-sesion"])
+      }).catch(error => {
+        console.log(error)
+        this.utilsSvc.presentToast({
+          message: error.message,
+          duration: 5000,
+          color: 'primary',
+          position: 'top',
+          icon: 'alert-circle-outline'
+
+        })
+      }).finally(() => { loading.dismiss(); })
+    }
+  }
 }
