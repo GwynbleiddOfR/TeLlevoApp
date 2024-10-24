@@ -6,8 +6,11 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+
 // Firebase
 import { AngularFireModule } from '@angular/fire/compat';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +21,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ]
   ,
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, Geolocation],
   bootstrap: [AppComponent],
 })
 export class AppModule { }
