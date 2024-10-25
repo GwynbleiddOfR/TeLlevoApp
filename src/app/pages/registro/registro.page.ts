@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
 export class RegistroPage implements OnInit {
 
   form = new FormGroup({
+    uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     lastname: new FormControl('', [Validators.required, Validators.minLength(3)]),
   })
 
-  constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService)
   ngOnInit() {
@@ -30,10 +30,11 @@ export class RegistroPage implements OnInit {
       loading.present();
       this.firebaseSvc.signUp(this.form.value as User).then(async res => {
         await this.firebaseSvc.updateUser(this.form.value.name)
-        console.log(res)
-        this.router.navigate(["/inicio-sesion"])
+        let uid = res.user.uid;
+        this.form.controls.uid.setValue(uid);
+        this.setUserInfo(uid);
+        this.utilsSvc.routerLink('/inicio-sesion')
       }).catch(error => {
-        console.log(error)
         this.utilsSvc.presentToast({
           message: error.message,
           duration: 5000,
@@ -55,11 +56,8 @@ export class RegistroPage implements OnInit {
       delete this.form.value.password;
 
       this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
-
-        
-        this.router.navigate(["/inicio-sesion"])
+        this.utilsSvc.saveInLocalStorage('user', this.form.value)
       }).catch(error => {
-        console.log(error)
         this.utilsSvc.presentToast({
           message: error.message,
           duration: 5000,
