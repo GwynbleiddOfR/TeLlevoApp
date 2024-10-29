@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class RegistroPage implements OnInit {
 
   form = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
+    email: new FormControl('', [Validators.required, Validators.email, this.emailDomainValidator]),
     password: new FormControl('', [Validators.required]),
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     lastname: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -23,7 +23,12 @@ export class RegistroPage implements OnInit {
   utilsSvc = inject(UtilsService)
   ngOnInit() {
   }
+  emailDomainValidator(control: AbstractControl): ValidationErrors | null {
+    const email = control.value;
+    const validDomain = email && email.endsWith('@duocuc.cl');
 
+    return validDomain ? null : { invalidDomain: true };
+  }
   async registro() {
     if (this.form.valid) {
       const loading = await this.utilsSvc.loading();
