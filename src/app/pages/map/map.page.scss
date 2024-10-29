@@ -1,0 +1,22 @@
+#map {
+    width: 100%;
+    height: calc(100vh - 56px);
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  
+  .zoom-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .zoom-controls ion-button {
+    font-size: 20px;
+    --size: 40px;
+  }
+  
