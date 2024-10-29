@@ -15,6 +15,7 @@
           <div class="validator" *ngIf="form.controls.email.errors && form.controls.email.touched">
             <div *ngIf="form.controls.email.errors?.['required']" class="ion-text-center">El correo es requerido</div>
             <div *ngIf="form.controls.email.errors?.['email']" class="ion-text-center">Ingrese un correo valido</div>
+            <div *ngIf="form.get('email')?.errors?.['invalidDomain']">El correo debe terminar en &#64;duocuc.cl.</div>
           </div>
 
           <ion-item lines="none">
