@@ -5,59 +5,75 @@
 </ion-header>
 
 <ion-content>
-  <!-- Filtro Placeholder -->
+  <!-- Filtro -->
   <ion-segment>
     <ion-segment-button>
-      <div class="placeholder-text placeholder-segment"></div>
+      <ion-label>Disponibles</ion-label>
     </ion-segment-button>
     <ion-segment-button>
-      <div class="placeholder-text placeholder-segment"></div>
+      <ion-label>Programados</ion-label>
     </ion-segment-button>
   </ion-segment>
 
-  <!-- Lista de Viajes Placeholder -->
+  <!-- Lista de Viajes -->
   <ion-grid>
     <ion-row>
-      <ion-col size-md="6" size-sm="12" *ngFor="let placeholder of placeholders">
+      <ion-col size-md="6" size-sm="12" *ngFor="let viaje of placeholders">
         <ion-card>
-          <!-- Placeholder de Imagen -->
-          <div class="placeholder-image"></div>
+          <!-- Imagen del viaje -->
+          <img src="assets/images/viaje-ejemplo.jpg" alt="Viaje Ejemplo" class="viaje-imagen" />
 
           <ion-card-header>
             <ion-card-title>
-              <div class="placeholder-text placeholder-title"></div>
+              Viaje a la Playa
             </ion-card-title>
             <ion-card-subtitle>
-              <div class="placeholder-text placeholder-subtitle"></div>
+              Sábado, 15 de Noviembre
             </ion-card-subtitle>
           </ion-card-header>
 
           <ion-card-content>
-            <div class="placeholder-text placeholder-description"></div>
-            <div class="placeholder-text placeholder-description"></div>
+            <p>Salida: 8:00 AM</p>
+            <p>Regreso: 6:00 PM</p>
 
             <ion-item lines="none">
               <ion-label>Distancia:</ion-label>
-              <div class="placeholder-badge"></div>
+              <span>150 km</span>
             </ion-item>
           </ion-card-content>
 
-          <!-- Botón Placeholder -->
+          <!-- Botón para confirmar -->
           <ion-button expand="block" routerLink="/confirmacion">
-            <div class="placeholder-text placeholder-button"></div>
+            Confirmar Viaje
           </ion-button>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
 
-  <!-- Placeholder del Mapa -->
+  <!-- Mapa -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Ubicación de Vehículos Disponibles</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class="placeholder-map"></div>
+      <img src="assets/images/mapa-ejemplo.jpg" alt="Mapa de Ubicación" class="mapa-imagen" />
     </ion-card-content>
   </ion-card>
 </ion-content>
+
+<style>
+  .viaje-imagen {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    /* Ajusta la imagen sin distorsionarla */
+  }
+
+  .mapa-imagen {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    /* Ajusta la imagen sin distorsionarla */
+  }
+</style>
