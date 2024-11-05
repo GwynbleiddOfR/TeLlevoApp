@@ -25,4 +25,11 @@ export class FirebaseService {
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
   }
+
+  registerVehicle(data: any) {
+    const collectionPath = 'vehiculos';
+    const documentId = data.patente; // Puedes usar cualquier otro ID único, si lo deseas.
+    return setDoc(doc(getFirestore(), collectionPath, documentId), data);
+  }
+
 }

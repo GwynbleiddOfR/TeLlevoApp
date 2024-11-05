@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-registro-usuario',
@@ -10,7 +12,11 @@ export class RegistroUsuarioPage implements OnInit {
 
   formularioRegistroVehiculo!: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private firebaseService: FirebaseService,
+    private utilsService: UtilsService
+  ) { }
 
   ngOnInit() {
     this.formularioRegistroVehiculo = this.fb.group({
@@ -21,9 +27,35 @@ export class RegistroUsuarioPage implements OnInit {
     });
   }
 
-  registrarVehiculo() {
+  async registrarVehiculo() {
     if (this.formularioRegistroVehiculo.valid) {
-      console.log('Datos del vehículo registrado:', this.formularioRegistroVehiculo.value);
+      const vehiculoData = this.formularioRegistroVehiculo.value;
+      try {
+        await this.firebaseService.registerVehicle(vehiculoData);
+        console.log('Vehículo registrado exitosamente');
+        this.utilsService.presentToast({
+          message: 'Vehículo registrado correctamente',
+          duration: 3000,
+          color: 'success',
+          position: 'top'
+        });
+      } catch (error) {
+        console.error('Error al registrar el vehículo:', error);
+        this.utilsService.presentToast({
+          message: 'Vehículo registrado correctamente',
+          duration: 3000,  // Duración en milisegundos, opcional
+          color: 'danger',
+          position: 'top'   // Puedes cambiar la posición si lo deseas
+        });
+      }
+    } else {
+      console.log('Formulario inválido');
+      this.utilsService.presentToast({
+        message: 'Vehículo registrado correctamente',
+        duration: 3000,  // Duración en milisegundos, opcional
+        color: 'warning',
+        position: 'top'   // Puedes cambiar la posición si lo deseas
+      });
     }
   }
 }
