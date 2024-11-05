@@ -5,6 +5,7 @@ import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc } from '@angular/fire/firestore';
 import { doc } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,5 +25,8 @@ export class FirebaseService {
 
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
+  }
+  getCurrentUser(){
+    return this.auth.currentUser;
   }
 }
