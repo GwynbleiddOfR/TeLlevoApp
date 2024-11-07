@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -12,13 +13,23 @@ export class PerfilUsuarioPage implements OnInit {
     nombre: 'Simón',
     apellido: 'Muñoz',
     email: 'biorka_vuelve-xfa@duocuc.cl',
-    telefono: '123456789',
     vehiculo: 'No aplica',
   };
 
   constructor(private router: Router) { }
-
-  ngOnInit() {}
+  firebaseSvc = inject(FirebaseService)
+  async ngOnInit() {
+    try {
+      const user = await this.firebaseSvc.auth.currentUser;
+      if (user) {
+        const path = "users/" + user.uid;
+        const data = await this.firebaseSvc.getDocument(path); // Await the async call
+        console.log(data); // Now it logs the actual data, not a Promise
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }
 
   verHistorial() {
     console.log('Accediendo al historial de viajes...');
