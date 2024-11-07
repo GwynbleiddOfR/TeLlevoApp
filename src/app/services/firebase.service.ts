@@ -26,7 +26,7 @@ export class FirebaseService {
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
   }
-  getCurrentUser(){
+  getCurrentUser() {
     return this.auth.currentUser;
   }
 }
