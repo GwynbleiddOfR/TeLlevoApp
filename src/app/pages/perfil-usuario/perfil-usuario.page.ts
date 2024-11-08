@@ -9,22 +9,21 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class PerfilUsuarioPage implements OnInit {
 
-  usuario = {
-    nombre: 'Simón',
-    apellido: 'Muñoz',
-    email: 'biorka_vuelve-xfa@duocuc.cl',
-    vehiculo: 'No aplica',
-  };
-
+  userData: any;
   constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService)
   async ngOnInit() {
     try {
       const user = await this.firebaseSvc.auth.currentUser;
+
       if (user) {
-        const path = "users/" + user.uid;
-        const data = await this.firebaseSvc.getDocument(path); // Await the async call
-        console.log(data); // Now it logs the actual data, not a Promise
+        const path = `users/${user.uid}`;
+
+        this.userData = await this.firebaseSvc.getDocument(path);
+        console.log("User data:", this.userData);
+
+      } else {
+        console.warn("No user is currently logged in.");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
