@@ -4,8 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc } from '@angular/fire/firestore';
-import { doc } from 'firebase/firestore';
-import { Observable } from 'rxjs';
+import { doc, getDoc } from 'firebase/firestore';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +24,10 @@ export class FirebaseService {
 
   setDocument(path: string, data: any) {
     return setDoc(doc(getFirestore(), path), data);
+  }
+
+  async getDocument(path: string){
+    return (await getDoc(doc(getFirestore(),path))).data();
   }
 
   registerVehicle(data: any) {

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-perfil-usuario',
@@ -8,17 +9,26 @@ import { Router } from '@angular/router';
 })
 export class PerfilUsuarioPage implements OnInit {
 
-  usuario = {
-    nombre: 'Simón',
-    apellido: 'Muñoz',
-    email: 'biorka_vuelve-xfa@duocuc.cl',
-    telefono: '123456789',
-    vehiculo: 'No aplica',
-  };
-
+  userData: any;
   constructor(private router: Router) { }
+  firebaseSvc = inject(FirebaseService)
+  async ngOnInit() {
+    try {
+      const user = await this.firebaseSvc.auth.currentUser;
 
-  ngOnInit() {}
+      if (user) {
+        const path = `users/${user.uid}`;
+
+        this.userData = await this.firebaseSvc.getDocument(path);
+        console.log("User data:", this.userData);
+
+      } else {
+        console.warn("No user is currently logged in.");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  }
 
   verHistorial() {
     console.log('Accediendo al historial de viajes...');
