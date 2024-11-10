@@ -18,14 +18,14 @@
   <!-- Lista de Viajes -->
   <ion-grid>
     <ion-row>
-      <ion-col size-md="6" size-sm="12" *ngFor="let viaje of placeholders">
+      <ion-col size-md="6" size-sm="12" *ngFor="let viaje of viajes">
         <ion-card>
           <!-- Imagen del viaje -->
           <img src="assets/images/viaje-ejemplo.jpg" alt="Viaje Ejemplo" class="viaje-imagen" />
 
           <ion-card-header>
             <ion-card-title>
-              Viaje a la Playa
+              {{ viaje.destino }}
             </ion-card-title>
             <ion-card-subtitle>
               Sábado, 15 de Noviembre
@@ -37,8 +37,8 @@
             <p>Regreso: 6:00 PM</p>
 
             <ion-item lines="none">
-              <ion-label>Distancia:</ion-label>
-              <span>150 km</span>
+              <ion-label>Costo</ion-label>
+              <span>{{ viaje.costo }}</span>
             </ion-item>
           </ion-card-content>
 
