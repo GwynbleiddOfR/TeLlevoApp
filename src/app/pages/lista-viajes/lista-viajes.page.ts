@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ListaViajesPage implements OnInit {
   viajes: any[] = [];
-  constructor(private router: Router) { }
+  constructor(private router:Router) { }
   firebaseSvc = inject(FirebaseService)
   ngOnInit() {
     this.obtenerViajes();
@@ -26,6 +26,14 @@ export class ListaViajesPage implements OnInit {
       });
       console.log(this.viajes); // Verifica que los datos se hayan guardado correctamente
     });
+  }
+  verViaje(id: string) {
+    let xtras: NavigationExtras = {
+      state: {
+        id: id
+      }
+    }
+    this.router.navigate(['confirmacion'], xtras);
   }
 }
 
