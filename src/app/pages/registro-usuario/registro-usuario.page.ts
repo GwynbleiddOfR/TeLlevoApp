@@ -23,12 +23,15 @@ export class RegistroUsuarioPage implements OnInit {
       patente: ['', [Validators.required, Validators.minLength(6)]],
       marca: ['', [Validators.required, Validators.minLength(2)]],
       modelo: ['', [Validators.required, Validators.minLength(2)]],
-      anio: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]]
+      anio: ['', [Validators.required, Validators.min(1900), Validators.max(new Date().getFullYear())]],
+      userid: []
     });
   }
 
   async registrarVehiculo() {
     if (this.formularioRegistroVehiculo.valid) {
+      const currentUser = await this.firebaseService.getCurrentUser();
+      this.formularioRegistroVehiculo.value.userid = currentUser.uid;
       const vehiculoData = this.formularioRegistroVehiculo.value;
       try {
         await this.firebaseService.registerVehicle(vehiculoData);
