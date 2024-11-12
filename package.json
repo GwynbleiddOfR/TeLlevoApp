@@ -32,10 +32,11 @@
     "@ionic/cli": "^7.2.0",
     "@ionic/storage-angular": "^4.0.0",
     "@mapbox/mapbox-gl-directions": "^4.3.1",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.3",
     "cordova-plugin-geolocation": "^5.0.0",
     "firebase": "^10.14.1",
     "ionicons": "^7.0.0",
-    "mapbox-gl": "^3.7.0",
+    "mapbox-gl": "^3.8.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
