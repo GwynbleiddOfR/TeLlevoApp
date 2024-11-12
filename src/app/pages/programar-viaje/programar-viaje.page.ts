@@ -1,10 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import mapboxgl from 'mapbox-gl';
 import * as mapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-programar-viaje',
   templateUrl: './programar-viaje.page.html',
@@ -13,7 +13,7 @@ import * as mapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 export class ProgramarViajePage implements OnInit {
   formularioViaje!: FormGroup;
   map: mapboxgl.Map;
-  constructor(private fb: FormBuilder, private navCtrl: NavController) { }
+  constructor(private fb: FormBuilder, private router:Router) { }
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
   ngOnInit() {
@@ -22,6 +22,7 @@ export class ProgramarViajePage implements OnInit {
       destino: ['', [Validators.required]],
       costo: ['', [Validators.required, Validators.min(1)]],
     });
+    this.initializeMap();
   }
 
   async confirmarViaje() {
@@ -39,7 +40,8 @@ export class ProgramarViajePage implements OnInit {
       } catch (error) {
         console.error("Error getting user:", error);
       } finally {
-        loading.dismiss();  // Ensure the loading spinner is hidden when done
+        loading.dismiss();
+        this.router.navigate(["/home"])  // Ensure the loading spinner is hidden when done
       }
     }
   }

@@ -7,26 +7,35 @@
 
       <ion-card-content>
         <form (ngSubmit)="confirmarViaje()" [formGroup]="formularioViaje">
-          
+
+          <!-- Hora de salida -->
           <ion-item lines="none">
             <ion-icon name="time-outline" slot="start"></ion-icon>
             <ion-label for="horaSalida" position="stacked">Hora de salida</ion-label>
             <ion-datetime id="horaSalida" formControlName="horaSalida" presentation="time"></ion-datetime>
           </ion-item>
 
+          <!-- Mapa de ubicaciones -->
+          <ion-item lines="none">
+            <div id="map" style="width: 100%; height: 300px; margin-top: 20px;"></div>
+          </ion-item>
+
+          <!-- Destino -->
           <ion-item lines="none">
             <ion-icon name="location-outline" slot="start"></ion-icon>
             <ion-label for="destino" position="stacked">Destino</ion-label>
-            <ion-input id="destino" formControlName="destino" placeholder="Ingresa el destino"></ion-input>
+            <ion-input id="destino" formControlName="destino" placeholder="Ingresa el destino" readonly></ion-input>
           </ion-item>
 
+          <!-- Costo -->
           <ion-item lines="none">
             <ion-icon name="cash-outline" slot="start"></ion-icon>
             <ion-label for="costo" position="stacked">Costo por pasajero</ion-label>
             <ion-input id="costo" formControlName="costo" type="number" placeholder="Ej: 5000"></ion-input>
           </ion-item>
 
-          <ion-button class="ion-padding" expand="block" type="submit" routerLink="/home">
+          <!-- Botón para confirmar viaje -->
+          <ion-button class="ion-padding" expand="block" type="submit">
             Confirmar y publicar viaje
           </ion-button>
         </form>
