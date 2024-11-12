@@ -10,17 +10,22 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class ListaViajesPage implements OnInit {
   viajes: any[] = [];
-  constructor(private router:Router) { }
+  constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService)
   utils = inject(UtilsService)
   ngOnInit() {
     this.obtenerViajes();
   }
-  async obtenerViajes(){
+  async obtenerViajes() {
     const loading = await this.utils.loading();
     loading.present();
-    this.firebaseSvc.firestore.collection('viajes').get().subscribe((querySnapshot) => {
+
+    // Usamos 'toPromise' para manejar la promesa de Firestore correctamente
+    try {
+      const querySnapshot = await this.firebaseSvc.firestore.collection('viajes').get().toPromise();
+
       this.viajes = []; // Reinicia el array en cada carga
+
       querySnapshot.forEach((doc) => {
         // Guarda cada documento en el array `viajes`
         const data = doc.data();
@@ -28,15 +33,20 @@ export class ListaViajesPage implements OnInit {
           this.viajes.push({ id: doc.id, ...data });
         }
       });
-      loading.dismiss()
-    });
+    } catch (error) {
+      console.error("Error al obtener los viajes:", error);
+    } finally {
+      loading.dismiss();  // Asegúrate de que el loading se cierra independientemente del resultado
+    }
   }
   verViaje(id: string) {
     let xtras: NavigationExtras = {
       state: {
         id: id
       }
-    }
+    };
+
+    // Usar el objeto `xtras` dentro de `navigate`
     this.router.navigate(['confirmacion'], xtras);
   }
 }
