@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Router } from '@angular/router';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -11,10 +12,13 @@ export class ListaViajesPage implements OnInit {
   viajes: any[] = [];
   constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService)
+  utils = inject(UtilsService)
   ngOnInit() {
     this.obtenerViajes();
   }
-  obtenerViajes(): void {
+  async obtenerViajes(){
+    const loading = await this.utils.loading();
+    loading.present();
     this.firebaseSvc.firestore.collection('viajes').get().subscribe((querySnapshot) => {
       this.viajes = []; // Reinicia el array en cada carga
       querySnapshot.forEach((doc) => {
@@ -24,7 +28,7 @@ export class ListaViajesPage implements OnInit {
           this.viajes.push({ id: doc.id, ...data });
         }
       });
-      console.log(this.viajes); // Verifica que los datos se hayan guardado correctamente
+      loading.dismiss()
     });
   }
 }
