@@ -22,7 +22,7 @@
       <!-- Placeholder de costo -->
       <ion-item lines="none">
         <ion-label>Costo:</ion-label>
-        <div>{{viaje.costo}}</div>
+        <div *ngIf="viaje" >{{viaje.costo}}</div>
       </ion-item>
     </ion-card-content>
   </ion-card>
