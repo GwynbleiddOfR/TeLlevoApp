@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class ListaViajesPage implements OnInit {
   viajes: any[] = [];
-  constructor(private router: Router) { }
+  constructor(private router:Router) { }
   firebaseSvc = inject(FirebaseService)
   utils = inject(UtilsService)
   ngOnInit() {
@@ -30,6 +30,14 @@ export class ListaViajesPage implements OnInit {
       });
       loading.dismiss()
     });
+  }
+  verViaje(id: string) {
+    let xtras: NavigationExtras = {
+      state: {
+        id: id
+      }
+    }
+    this.router.navigate(['confirmacion'], xtras);
   }
 }
 
