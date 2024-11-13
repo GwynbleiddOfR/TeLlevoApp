@@ -41,6 +41,43 @@ ion-datetime {
     border: 1px solid var(--ion-border-color, #ddd);
 }
 
+/* Geocoder Styles */
+.geocoder-container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 10px;
+    background: var(--ion-background-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mapboxgl-ctrl-geocoder {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+    background: var(--ion-background-color);
+    color: var(--ion-text-color);
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: 1px solid var(--ion-border-color);
+}
+
+.mapboxgl-ctrl-geocoder input {
+    width: 100%;
+    height: 30px;
+    font-size: 1rem;
+    border-radius: 8px;
+    padding: 5px;
+    background-color: var(--ion-background-color);
+    border: 1px solid var(--ion-border-color);
+    color: var(--ion-text-color);
+}
+
+.mapboxgl-ctrl-geocoder .mapboxgl-ctrl-geocoder-icon {
+    color: var(--ion-text-color);
+}
+
 /* Modo claro */
 @media (prefers-color-scheme: light) {
     .fondo-programar {
@@ -68,6 +105,12 @@ ion-datetime {
     ion-button {
         --background: black;
         color: #ffffff;
+    }
+
+    .mapboxgl-ctrl-geocoder input {
+        background: #ffffff;
+        border-color: #ddd;
+        color: #333;
     }
 }
 
@@ -98,5 +141,11 @@ ion-datetime {
     ion-button {
         --background: #ffffff;
         color: black;
+    }
+
+    .mapboxgl-ctrl-geocoder input {
+        background: #333;
+        border-color: #444;
+        color: #fff;
     }
 }
