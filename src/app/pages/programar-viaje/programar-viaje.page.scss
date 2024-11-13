@@ -1,13 +1,20 @@
 .fondo-programar {
     --background: var(--ion-background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Ensures content is centered vertically */
 }
 
 .contenedor-programar {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100%;
-    overflow-y: auto;
+    width: 100%;
+    max-width: 400px;
+    /* You can adjust this width */
+    margin: auto;
 }
 
 .tarjeta-programar {
@@ -17,6 +24,8 @@
     --background: var(--ion-card-background);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
+    padding: 20px;
+    /* Added padding for inner spacing */
 }
 
 ion-card-title {
