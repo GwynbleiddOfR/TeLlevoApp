@@ -1,6 +1,7 @@
 /* Estilos generales */
 ion-content {
   --background: var(--ion-background-color);
+  overflow-y: auto;
 }
 
 .placeholder-text {
