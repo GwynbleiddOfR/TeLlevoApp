@@ -4,39 +4,40 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-card>
+<ion-content class="ion-padding">
+
+  <!-- Tarjeta con detalles del viaje -->
+  <ion-card class="viaje-card">
     <ion-card-header>
       <ion-card-title>
-        <div class="placeholder-text placeholder-title"></div>
+        {{ viaje?.destino }} <!-- Aquí se muestra el título del viaje -->
       </ion-card-title>
       <ion-card-subtitle>
-        <div class="placeholder-text placeholder-subtitle"></div>
+        {{ viaje?.horaSalida }} <!-- Aquí se muestra el subtítulo -->
       </ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <!-- Placeholder de detalles del conductor -->
-      <div class="placeholder-text placeholder-description"></div>
-      <div class="placeholder-text placeholder-description"></div>
-      <!-- Placeholder de costo -->
+      <!-- Descripción del viaje -->
+      <div></div> <!-- Aquí se muestra la descripción -->
+
+      <!-- Información del costo -->
       <ion-item lines="none">
         <ion-label>Costo:</ion-label>
-        <div>{{viaje.costo}}</div>
+        <div>{{ viaje?.costo | currency }}</div> <!-- Muestra el costo con formato de moneda -->
       </ion-item>
     </ion-card-content>
   </ion-card>
 
-  <!-- Botones de Cancelar o Confirmar -->
+  <!-- Botones de Cancelar y Confirmar -->
   <div class="button-group">
-    <ion-button expand="block" color="danger" routerLink="/lista-viajes">
-      <div class="">
-        Cancelar
-      </div>
+    <ion-button expand="block" color="danger" routerLink="/lista-viajes" class="cancel-button">
+      Cancelar
     </ion-button>
 
-    <ion-button expand="block" color="primary" routerLink="/pago">
-      <div class="">Confirmar</div>
+    <ion-button expand="block" color="primary" routerLink="/pago" class="confirm-button">
+      Confirmar
     </ion-button>
   </div>
+
 </ion-content>
