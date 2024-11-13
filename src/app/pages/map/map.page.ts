@@ -1,6 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-map',
@@ -11,12 +14,27 @@ export class MapPage implements OnInit {
   map: mapboxgl.Map;
   userMarker: mapboxgl.Marker;
   currentLocation: [number, number] = [-74.5, 40];
+  directions: MapboxDirections;
 
-  constructor(private geolocation: Geolocation) {}
+  constructor(private geolocation: Geolocation, private router: Router) { }
+  id: any;
+  viaje: any;
+  firebaseSvc = inject(FirebaseService);
 
   ngOnInit() {
-    this.initializeMap();
-    this.trackUserLocation();
+    let xtras = this.router.getCurrentNavigation()?.extras.state;
+    if (xtras !== undefined) {
+      this.id = xtras["id"];
+      const path = `viajes/${this.id}`;
+      this.firebaseSvc.getDocument(path).then((doc) => {
+        this.viaje = doc;
+        this.initializeMap();
+        this.trackUserLocation();
+
+        // Agregar marcador para la ubicación del viaje
+        this.addDestinationMarker(this.viaje.longitud, this.viaje.latitud, this.viaje.destino);
+      });
+    }
   }
 
   initializeMap() {
@@ -31,25 +49,20 @@ export class MapPage implements OnInit {
       zoom: savedZoom ? Number(savedZoom) : 14,
     });
 
-    this.map.on('moveend', () => {
-      const center = this.map.getCenter();
-      localStorage.setItem('mapLocation', JSON.stringify([center.lng, center.lat]));
+    // Configuración del mapa Directions
+    this.directions = new MapboxDirections({
+      accessToken: (mapboxgl as any).accessToken,
+      unit: 'metric',
+      profile: 'mapbox/driving',
+      interactive: false,
+      controls: {
+        inputs: false, // Ocultar la barra de direcciones
+        instructions: false, // Ocultar instrucciones
+      },
     });
 
-    this.map.on('zoomend', () => {
-      const zoom = this.map.getZoom();
-      localStorage.setItem('mapZoom', zoom.toString());
-    });
-  }
-
-  zoomIn() {
-    const currentZoom = this.map.getZoom();
-    this.map.setZoom(currentZoom + 1);
-  }
-
-  zoomOut() {
-    const currentZoom = this.map.getZoom();
-    this.map.setZoom(currentZoom - 1);
+    this.map.addControl(this.directions, 'top-left');
+    this.directions.setOrigin(this.currentLocation);
   }
 
   trackUserLocation() {
@@ -62,15 +75,38 @@ export class MapPage implements OnInit {
         if (this.userMarker) {
           this.userMarker.setLngLat(this.currentLocation);
         } else {
-          this.userMarker = new mapboxgl.Marker()
-            .setLngLat(this.currentLocation)
-            .addTo(this.map);
+          this.userMarker = this.addUserMarker(this.currentLocation[0], this.currentLocation[1]);
         }
 
-        this.map.setCenter(this.currentLocation);
+        // Establecer la ubicación actual como el origen de la ruta
+        this.directions.setOrigin(this.currentLocation);
+
+        // Establecer el destino de la ruta en el marcador de destino
+        this.directions.setDestination([this.viaje.longitud, this.viaje.latitud]);
       } else {
         console.error('Error obteniendo la ubicación:', position);
       }
     });
+  }
+
+  addUserMarker(lng: number, lat: number): mapboxgl.Marker {
+    const marker = new mapboxgl.Marker({ color: 'green' })
+      .setLngLat([lng, lat])
+      .addTo(this.map);
+
+    return marker;
+  }
+
+  addDestinationMarker(lng: number, lat: number, label: string) {
+    const marker = new mapboxgl.Marker({ color: 'red' })
+      .setLngLat([lng, lat])
+      .addTo(this.map);
+
+    const popup = new mapboxgl.Popup({ offset: 25 })
+      .setText(label)
+      .setLngLat([lng, lat])
+      .addTo(this.map);
+
+    marker.setPopup(popup);
   }
 }

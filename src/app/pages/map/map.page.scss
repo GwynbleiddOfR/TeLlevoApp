@@ -1,22 +1,36 @@
 #map {
-    width: 100%;
-    height: calc(100vh - 56px);
-    position: relative;
-    top: 0;
-    left: 0;
-  }
-  
-  .zoom-controls {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .zoom-controls ion-button {
-    font-size: 20px;
-    --size: 40px;
-  }
-  
+  width: 100%;
+  height: calc(100vh - 56px);
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.zoom-controls {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.zoom-controls ion-button {
+  font-size: 20px;
+  --size: 40px;
+}
+
+/* popup-custom se aplicará para personalizar el popup */
+.mapboxgl-popup-content {
+  background-color: #ffffff;
+  /* Fondo oscuro */
+  color: #000000;
+  /* Texto blanco */
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.mapboxgl-popup-close-button {
+  color: #010101;
+  /* Cerrar en blanco */
+}

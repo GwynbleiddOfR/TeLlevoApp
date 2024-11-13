@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
@@ -98,7 +98,12 @@ export class ConfirmacionPage implements OnInit {
           icon: 'alert-circle-outline'
 
         })
-        this.router.navigate(["/home"]);
+        let xtras: NavigationExtras = {
+          state: {
+            id: this.id
+          }
+        };
+        this.router.navigate(["/map"], xtras);
       } catch (error) {
         console.error("Error updating document:", error);
       }
