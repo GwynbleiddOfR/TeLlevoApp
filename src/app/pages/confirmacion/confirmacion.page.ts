@@ -43,7 +43,6 @@ export class ConfirmacionPage implements OnInit {
 
   async checkReserva() {
     const userId = (await this.firebaseSvc.getCurrentUser()).uid;
-    console.log(userId);
     try {
       const reservaDoc = await this.firebaseSvc.getDocument(`users/${userId}/reservas/${this.id}`);
       // Verifica si el documento de reserva existe
@@ -91,6 +90,14 @@ export class ConfirmacionPage implements OnInit {
         await this.firebaseSvc.setDocument(`users/${userId}/reservas/${this.id}`, reserva); // Cambia aquí
 
         this.reservado = true; // Actualiza el estado de reservado
+        this.utils.presentToast({
+          message: "Reserva exitosa",
+          duration: 5000,
+          color: 'primary',
+          position: 'top',
+          icon: 'alert-circle-outline'
+
+        })
         this.router.navigate(["/home"]);
       } catch (error) {
         console.error("Error updating document:", error);
