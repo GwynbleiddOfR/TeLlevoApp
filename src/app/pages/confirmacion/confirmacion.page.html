@@ -18,8 +18,14 @@
     </ion-card-header>
 
     <ion-card-content>
+      <ion-text color="">
+        <p>Conductor: {{conductor?.name }} {{ conductor?.lastname }}</p>
+        <p>Vehiculo: {{vehiculo?.marca}} {{vehiculo?.modelo}} {{vehiculo?.patente}}</p>
+      </ion-text>
       <!-- Descripción del viaje -->
-      <div></div> <!-- Aquí se muestra la descripción -->
+      <ion-text color="primary">
+        <p>Asientos disponibles: {{viaje?.asientos}}</p>
+      </ion-text>
 
       <!-- Información del costo -->
       <ion-item lines="none">
@@ -35,7 +41,7 @@
       Cancelar
     </ion-button>
 
-    <ion-button expand="block" color="primary" routerLink="/pago" class="confirm-button">
+    <ion-button expand="block" color="primary" (click)="confirmar()" class="confirm-button">
       Confirmar
     </ion-button>
   </div>

@@ -4,7 +4,8 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc } from '@angular/fire/firestore';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,17 +27,22 @@ export class FirebaseService {
     return setDoc(doc(getFirestore(), path), data);
   }
 
-  async getDocument(path: string){
-    return (await getDoc(doc(getFirestore(),path))).data();
+  async getDocument(path: string) {
+    return (await getDoc(doc(getFirestore(), path))).data();
   }
 
   registerVehicle(data: any) {
     const collectionPath = 'vehiculos';
-    const documentId = data.patente; // Puedes usar cualquier otro ID único, si lo deseas.
+    const documentId = data.patente;
     return setDoc(doc(getFirestore(), collectionPath, documentId), data);
   }
-
+  obtenerVehiculoPorUserId(userId: string): Observable<any[]> {
+    return this.firestore.collection('vehiculos', ref => ref.where('userid', '==', userId)).valueChanges();
+  }
   getCurrentUser() {
     return this.auth.currentUser;
+  }
+  updateDocument(path: string, data: any) {
+    return updateDoc(doc(getFirestore(), path), data);
   }
 }
