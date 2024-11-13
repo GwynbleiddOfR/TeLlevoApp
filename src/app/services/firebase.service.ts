@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth'
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc } from '@angular/fire/firestore';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
@@ -44,5 +44,8 @@ export class FirebaseService {
   }
   updateDocument(path: string, data: any) {
     return updateDoc(doc(getFirestore(), path), data);
+  }
+  deleteDocument(path: string) {
+    return deleteDoc(doc(getFirestore(), path));
   }
 }
