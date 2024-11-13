@@ -6,18 +6,16 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
-  private chatRef = this.db.list('chat');
-
   constructor(private db: AngularFireDatabase) { }
 
-  // Obtener mensajes del chat en tiempo real
-  getMessages(): Observable<any[]> {
-    return this.chatRef.valueChanges();
+  // Obtener mensajes del chat en tiempo real para un viaje específico
+  getMessages(viajeId: string): Observable<any[]> {
+    return this.db.list(`chat/${viajeId}`).valueChanges();
   }
 
-  // Enviar un nuevo mensaje al chat
-  sendMessage(user: string, message: string): void {
+  // Enviar un nuevo mensaje al chat de un viaje específico
+  sendMessage(viajeId: string, user: string, message: string): void {
     const timestamp = new Date().getTime();
-    this.chatRef.push({ user, message, timestamp });
+    this.db.list(`chat/${viajeId}`).push({ user, message, timestamp });
   }
 }

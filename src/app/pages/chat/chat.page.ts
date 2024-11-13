@@ -1,6 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { FirebaseService } from 'src/app/services/firebase.service';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChatService } from 'src/app/services/chat.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -8,49 +9,28 @@ import { ChatService } from 'src/app/services/chat.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
-
+  viajeId: string;
   messages: any[] = [];
   newMessage: string = '';
-  userData: any; // Aquí almacenaremos los datos del usuario autenticado
 
-  firebaseSvc = inject(FirebaseService);
-  chatService = inject(ChatService);
+  constructor(private route: ActivatedRoute, private chatService: ChatService) {}
 
   ngOnInit() {
-    this.firebaseSvc.auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        // El usuario está autenticado, obtenemos los datos de Firestore
-        try {
-          const path = `users/${user.uid}`;
-          this.userData = await this.firebaseSvc.getDocument(path);
-          console.log("User data fetched:", this.userData); // Verificar que los datos están llegando
+    this.viajeId = this.route.snapshot.paramMap.get('id')!;
+    this.subscribeToChat(this.viajeId);
+  }
 
-          // Escucha los mensajes en tiempo real
-          this.chatService.getMessages().subscribe((messages) => {
-            this.messages = messages;
-          });
-
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      } else {
-        // Si no hay usuario autenticado, mostramos un mensaje
-        console.warn("No user is currently logged in.");
-      }
+  subscribeToChat(viajeId: string) {
+    this.chatService.getMessages(viajeId).subscribe(msgs => {
+      this.messages = msgs;
     });
   }
 
   sendMessage() {
-    if (this.newMessage.trim() && this.userData) {
-      console.log("UserData in sendMessage:", this.userData); // Verificar los datos aquí
-
-      const userName = this.userData && this.userData.name && this.userData.lastname ? 
-        `${this.userData.name} ${this.userData.lastname}` : 'Usuario';
-        
-      console.log("Sending message as:", userName); // Verificar qué nombre se está enviando
-
-      this.chatService.sendMessage(userName, this.newMessage);
-      this.newMessage = '';
+    if (this.newMessage) {
+      const user = 'Usuario'; // Aquí puedes obtener el nombre del usuario
+      this.chatService.sendMessage(this.viajeId, user, this.newMessage);
+      this.newMessage = ''; // Limpiar el input
     }
   }
 }
