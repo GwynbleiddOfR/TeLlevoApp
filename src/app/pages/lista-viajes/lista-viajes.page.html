@@ -25,7 +25,7 @@
 
           <ion-card-header>
             <ion-card-title>
-              {{ viaje.destino }}
+              {{ viaje?.destino }}
             </ion-card-title>
             <ion-card-subtitle>
               Sábado, 15 de Noviembre
@@ -35,10 +35,10 @@
           <ion-card-content>
             <p>Salida: 8:00 AM</p>
             <p>Regreso: 6:00 PM</p>
-
+            <p>{{viaje?.asientos}}</p>
             <ion-item lines="none">
               <ion-label>Costo</ion-label>
-              <span>{{ viaje.costo }}</span>
+              <span>{{ viaje?.costo }}</span>
             </ion-item>
           </ion-card-content>
 
