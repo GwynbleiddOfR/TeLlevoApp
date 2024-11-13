@@ -25,7 +25,7 @@
 
           <ion-card-header>
             <ion-card-title>
-              {{ viaje.destino }}
+              {{ viaje?.destino }}
             </ion-card-title>
             <ion-card-subtitle>
               Sábado, 15 de Noviembre
@@ -35,10 +35,10 @@
           <ion-card-content>
             <p>Salida: 8:00 AM</p>
             <p>Regreso: 6:00 PM</p>
-
+            <p>Asientos disponibles: {{viaje?.asientos}}</p>
             <ion-item lines="none">
               <ion-label>Costo</ion-label>
-              <span>{{ viaje.costo }}</span>
+              <span>{{ viaje?.costo }}</span>
             </ion-item>
           </ion-card-content>
 
@@ -50,30 +50,7 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!-- Mapa -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Ubicación de Vehículos Disponibles</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <img src="assets/images/mapa-ejemplo.jpg" alt="Mapa de Ubicación" class="mapa-imagen" />
-    </ion-card-content>
-  </ion-card>
 </ion-content>
 
 <style>
-  .viaje-imagen {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    /* Ajusta la imagen sin distorsionarla */
-  }
-
-  .mapa-imagen {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    /* Ajusta la imagen sin distorsionarla */
-  }
 </style>
