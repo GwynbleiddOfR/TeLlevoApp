@@ -18,4 +18,7 @@ export class ChatService {
     const timestamp = new Date().getTime();
     this.db.list(`chat/${viajeId}`).push({ user, message, timestamp });
   }
+  deleteChat(viajeId: string): void {
+    this.db.list(`chat/${viajeId}`).remove();
+  }
 }
