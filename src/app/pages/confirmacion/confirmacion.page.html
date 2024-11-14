@@ -13,7 +13,8 @@
         {{ viaje?.destino }} <!-- Aquí se muestra el título del viaje -->
       </ion-card-title>
       <ion-card-subtitle>
-        {{ viaje?.horaSalida }} <!-- Aquí se muestra el subtítulo -->
+        <p>Fecha: {{ viaje?.horaSalida | date: 'dd/MM/yyyy' }}</p>
+        <p>Hora: {{ viaje?.horaSalida | date: 'HH:mm' }}</p>  
       </ion-card-subtitle>
     </ion-card-header>
 
