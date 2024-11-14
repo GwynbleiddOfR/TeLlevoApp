@@ -33,8 +33,8 @@
           </ion-card-header>
 
           <ion-card-content>
-            <p>Salida: 8:00 AM</p>
-            <p>Regreso: 6:00 PM</p>
+            <p>Fecha: {{ viaje?.horaSalida | date: 'dd/MM/yyyy' }}</p>
+            <p>Hora: {{ viaje?.horaSalida | date: 'HH:mm' }}</p>
             <p>Asientos disponibles: {{viaje?.asientos}}</p>
             <ion-item lines="none">
               <ion-label>Costo</ion-label>
