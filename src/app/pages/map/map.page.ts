@@ -4,6 +4,7 @@ import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import { Geolocation } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-map',
@@ -16,13 +17,17 @@ export class MapPage implements OnInit {
   currentLocation: [number, number] = [-36.79740609238323, -73.06133749982848];
   directions: MapboxDirections;
 
-  constructor(private router: Router) { }
-
+  constructor(private router: Router, private platform: Platform) {
+    this.platform.resume.subscribe(() => {
+      this.initializeMap();
+    })
+  }
   id: any;
   viaje: any;
   firebaseSvc = inject(FirebaseService);
 
   ngOnInit() {
+    this.requestPermissions();
     let xtras = this.router.getCurrentNavigation()?.extras.state;
     if (xtras !== undefined) {
       this.id = xtras["id"];
@@ -38,6 +43,18 @@ export class MapPage implements OnInit {
           this.directions.setDestination([this.viaje.longitud, this.viaje.latitud]);
         }
       });
+    }
+  }
+  async requestPermissions() {
+    try {
+      const permissionStatus = await Geolocation.requestPermissions();
+      if (permissionStatus.location === 'granted') {
+        console.log('Permission granted!');
+      } else {
+        console.log('Permission denied!');
+      }
+    } catch (error) {
+      console.error('Error requesting geolocation permissions:', error);
     }
   }
 
