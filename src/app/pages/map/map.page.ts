@@ -13,7 +13,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 export class MapPage implements OnInit {
   map: mapboxgl.Map;
   userMarker: mapboxgl.Marker;
-  currentLocation: [number, number] = [-74.5, 40];
+  currentLocation: [number, number] = [-36.79740609238323, -73.06133749982848];
   directions: MapboxDirections;
 
   constructor(private geolocation: Geolocation, private router: Router) { }
@@ -30,9 +30,12 @@ export class MapPage implements OnInit {
         this.viaje = doc;
         this.initializeMap();
         this.trackUserLocation();
-
-        // Agregar marcador para la ubicación del viaje
+        this.addStartingPointMarker(this.viaje.ubicacionActual.lng, this.viaje.ubicacionActual.lat);
         this.addDestinationMarker(this.viaje.longitud, this.viaje.latitud, this.viaje.destino);
+        if (this.directions) {
+          this.directions.setOrigin([this.viaje.ubicacionActual.lng, this.viaje.ubicacionActual.lat]);
+          this.directions.setDestination([this.viaje.longitud, this.viaje.latitud]);
+        }
       });
     }
   }
@@ -62,7 +65,10 @@ export class MapPage implements OnInit {
     });
 
     this.map.addControl(this.directions, 'top-left');
-    this.directions.setOrigin(this.currentLocation);
+    if (this.viaje) {
+      this.directions.setOrigin([this.viaje.ubicacionActual.lng, this.viaje.ubicacionActual.lat]);
+      this.directions.setDestination([this.viaje.longitud, this.viaje.latitud]);
+    }
   }
 
   trackUserLocation() {
@@ -78,11 +84,6 @@ export class MapPage implements OnInit {
           this.userMarker = this.addUserMarker(this.currentLocation[0], this.currentLocation[1]);
         }
 
-        // Establecer la ubicación actual como el origen de la ruta
-        this.directions.setOrigin(this.currentLocation);
-
-        // Establecer el destino de la ruta en el marcador de destino
-        this.directions.setDestination([this.viaje.longitud, this.viaje.latitud]);
       } else {
         console.error('Error obteniendo la ubicación:', position);
       }
@@ -90,7 +91,7 @@ export class MapPage implements OnInit {
   }
 
   addUserMarker(lng: number, lat: number): mapboxgl.Marker {
-    const marker = new mapboxgl.Marker({ color: 'green' })
+    const marker = new mapboxgl.Marker({ color: 'blue' })
       .setLngLat([lng, lat])
       .addTo(this.map);
 
@@ -98,7 +99,7 @@ export class MapPage implements OnInit {
   }
 
   addDestinationMarker(lng: number, lat: number, label: string) {
-    const marker = new mapboxgl.Marker({ color: 'red' })
+    const marker = new mapboxgl.Marker({ color: 'green' })
       .setLngLat([lng, lat])
       .addTo(this.map);
 
@@ -109,4 +110,10 @@ export class MapPage implements OnInit {
 
     marker.setPopup(popup);
   }
+  addStartingPointMarker(lng: number, lat: number) {
+    const marker = new mapboxgl.Marker({ color: 'red' })
+      .setLngLat([lng, lat])
+      .addTo(this.map);
+  }
+
 }
