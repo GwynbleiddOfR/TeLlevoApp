@@ -4,6 +4,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import * as mapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { Router } from '@angular/router';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-programar-viaje',
@@ -17,7 +18,7 @@ export class ProgramarViajePage implements OnInit {
   constructor(private fb: FormBuilder, private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService);
-
+  chat = inject(ChatService);
   ngOnInit() {
     this.formularioViaje = this.fb.group({
       horaSalida: [new Date().toISOString(), Validators.required],
@@ -59,7 +60,8 @@ export class ProgramarViajePage implements OnInit {
     if (this.formularioViaje.valid) {
       const loading = await this.utilsSvc.loading();
       await loading.present();
-
+      let user = (await this.firebaseSvc.getCurrentUser()).uid;
+      this.chat.deleteChat(user);
       try {
         const user = await this.firebaseSvc.auth.currentUser;
         if (user) {

@@ -49,5 +49,10 @@ export class ListaViajesPage implements OnInit {
     // Usar el objeto `xtras` dentro de `navigate`
     this.router.navigate(['confirmacion'], xtras);
   }
+
+  // Método para ir al chat
+  irAlChat(viajeId: string) {
+    this.router.navigate(['chat', { id: viajeId }]); // Navegar al chat con el ID del viaje
+  }
 }
 

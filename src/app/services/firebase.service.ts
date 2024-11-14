@@ -42,6 +42,12 @@ export class FirebaseService {
   getCurrentUser() {
     return this.auth.currentUser;
   }
+
+  async getCurrentUserDisplayName(): Promise<string | null> {
+    const user = getAuth().currentUser;
+    return user ? user.displayName : null;
+  }
+
   updateDocument(path: string, data: any) {
     return updateDoc(doc(getFirestore(), path), data);
   }

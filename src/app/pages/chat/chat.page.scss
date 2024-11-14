@@ -1,0 +1,70 @@
+:root {
+    --chat-background-color: #ffffff;
+    --chat-text-color: #000000;
+    --chat-input-background-color: #f0f0f0;
+    --chat-input-text-color: #000000;
+    --chat-send-button-color: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --chat-background-color: #1e1e1e;
+        --chat-text-color: #ffffff;
+        --chat-input-background-color: #333333;
+        --chat-input-text-color: #ffffff;
+        --chat-send-button-color: #ffffff;
+    }
+}
+
+.chat-title {
+    color: var(--chat-text-color);
+    font-weight: bold;
+    text-align: center;
+}
+
+.chat-content {
+    background-color: var(--chat-background-color);
+    color: var(--chat-text-color);
+    padding-bottom: 60px;
+}
+
+.message-list {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.message-item {
+    border: none;
+    padding: 5px 0;
+}
+
+.message-user {
+    color: var(--chat-text-color);
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.message-text {
+    color: var(--chat-text-color);
+}
+
+.chat-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: var(--chat-input-background-color);
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message-input {
+    font-size: 16px;
+    color: var(--chat-input-text-color);
+    background-color: var(--chat-input-background-color);
+}
+
+.send-button {
+    font-weight: bold;
+    color: var(--chat-send-button-color);
+    padding: 0 10px;
+}

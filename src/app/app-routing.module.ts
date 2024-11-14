@@ -75,6 +75,10 @@ const routes: Routes = [
     path: 'map',
     loadChildren: () => import('./pages/map/map.module').then( m => m.MapPageModule)
   },
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
 
 
 ];
