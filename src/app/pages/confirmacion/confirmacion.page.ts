@@ -98,12 +98,7 @@ export class ConfirmacionPage implements OnInit {
           icon: 'alert-circle-outline'
 
         })
-        let xtras: NavigationExtras = {
-          state: {
-            id: this.id
-          }
-        };
-        this.router.navigate(["/map"], xtras);
+        this.verMapa(this.id);
       } catch (error) {
         console.error("Error updating document:", error);
       }
@@ -138,5 +133,13 @@ export class ConfirmacionPage implements OnInit {
     } catch (error) {
       console.error("Error cancelando reserva:", error);
     }
+  }
+  verMapa(id: string) {
+    let xtras: NavigationExtras = {
+      state: {
+        id: id
+      }
+    };
+    this.router.navigate(["/map"], xtras);
   }
 }

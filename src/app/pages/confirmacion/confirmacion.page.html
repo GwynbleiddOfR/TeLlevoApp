@@ -41,11 +41,13 @@
       Cancelar
     </ion-button>
 
-    <ion-button expand="block" [color]="reservado ? 'danger' : 'primary'" 
-                (click)="reservado ? cancelarReserva() : confirmar()" 
-                class="confirm-button">
+    <ion-button expand="block" [color]="reservado ? 'danger' : 'primary'"
+      (click)="reservado ? cancelarReserva() : confirmar()" class="confirm-button">
       {{ reservado ? 'Cancelar Reserva' : 'Confirmar' }}
     </ion-button>
+
+    <ion-button expand="block" *ngIf="reservado" (click)="verMapa(id)">Ver Mapa</ion-button>
+
   </div>
 
 </ion-content>
