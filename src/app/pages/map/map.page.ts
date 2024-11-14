@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+import { Geolocation } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 
@@ -16,7 +16,8 @@ export class MapPage implements OnInit {
   currentLocation: [number, number] = [-36.79740609238323, -73.06133749982848];
   directions: MapboxDirections;
 
-  constructor(private geolocation: Geolocation, private router: Router) { }
+  constructor(private router: Router) { }
+
   id: any;
   viaje: any;
   firebaseSvc = inject(FirebaseService);
@@ -71,23 +72,28 @@ export class MapPage implements OnInit {
     }
   }
 
-  trackUserLocation() {
-    this.geolocation.watchPosition().subscribe((position) => {
-      if ('coords' in position) {
-        const lng = position.coords.longitude;
-        const lat = position.coords.latitude;
-        this.currentLocation = [lng, lat];
-
-        if (this.userMarker) {
-          this.userMarker.setLngLat(this.currentLocation);
-        } else {
-          this.userMarker = this.addUserMarker(this.currentLocation[0], this.currentLocation[1]);
+  async trackUserLocation() {
+    try {
+      const position = await Geolocation.watchPosition({}, (position, err) => {
+        if (err) {
+          console.error('Error obteniendo la ubicación:', err);
+          return;
         }
+        if (position) {
+          const lng = position.coords.longitude;
+          const lat = position.coords.latitude;
+          this.currentLocation = [lng, lat];
 
-      } else {
-        console.error('Error obteniendo la ubicación:', position);
-      }
-    });
+          if (this.userMarker) {
+            this.userMarker.setLngLat(this.currentLocation);
+          } else {
+            this.userMarker = this.addUserMarker(this.currentLocation[0], this.currentLocation[1]);
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Error obteniendo la ubicación:', error);
+    }
   }
 
   addUserMarker(lng: number, lat: number): mapboxgl.Marker {
@@ -110,6 +116,7 @@ export class MapPage implements OnInit {
 
     marker.setPopup(popup);
   }
+
   addStartingPointMarker(lng: number, lat: number) {
     const marker = new mapboxgl.Marker({ color: 'red' })
       .setLngLat([lng, lat])
