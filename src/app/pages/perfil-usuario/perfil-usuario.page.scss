@@ -15,6 +15,8 @@
     margin-bottom: 20px;
     border-radius: 50%;
     border: 2px solid var(--ion-border-color, #ddd);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* Sombra para destacar el avatar */
 }
 
 .tarjeta-perfil {
@@ -23,6 +25,8 @@
     --background: var(--ion-card-background);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
+    margin-bottom: 20px;
+    /* Espacio inferior para separación */
 }
 
 ion-card-title {
@@ -36,6 +40,8 @@ ion-item {
     --border-radius: 8px;
     border-bottom: 1px solid var(--ion-border-color, #ddd);
     margin-bottom: 10px;
+    padding: 10px;
+    /* Espaciado interno */
 }
 
 ion-icon {

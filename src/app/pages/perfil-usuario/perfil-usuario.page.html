@@ -3,15 +3,15 @@
 
     <ion-card class="tarjeta-perfil">
       <ion-card-header>
-        <ion-card-title>{{ userData.name }} {{ userData.lastname }}</ion-card-title>
+        <ion-card-title>{{ userData?.name }} {{ userData?.lastname }}</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
-        <p>Email: {{ userData.email }}</p>
+        <p>Email: {{ userData?.email }}</p>
       </ion-card-content>
     </ion-card>
 
-    <ion-list>
+    <ion-list class="lista-opciones">
       <ion-item button (click)="verHistorial()">
         <ion-icon name="albums-outline" slot="start"></ion-icon>
         <ion-label>Historial de viajes</ion-label>
@@ -24,3 +24,4 @@
     </ion-list>
   </div>
 </ion-content>
+
