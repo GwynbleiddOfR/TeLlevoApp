@@ -18,26 +18,35 @@ export class ConfirmacionPage implements OnInit {
   constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utils = inject(UtilsService);
-  ngOnInit() {
+
+  async ngOnInit() {
+    await this.cargarDatos();
+  }
+
+  async ionViewWillEnter() {
+    await this.cargarDatos(); // Recargar datos al volver a la vista
+  }
+
+  async cargarDatos() {
     let xtras = this.router.getCurrentNavigation()?.extras.state;
     if (xtras !== undefined) {
       this.id = xtras["id"];
+      await this.utils.presentLoading(); // Mostrar loading al iniciar
 
-      this.firebaseSvc.getDocument('users/' + this.id).then((doc) => {
-        this.conductor = doc;
-      });
+      try {
+        this.conductor = await this.firebaseSvc.getDocument('users/' + this.id);
+        this.firebaseSvc.obtenerVehiculoPorUserId(this.id).subscribe((vehiculos) => {
+          this.vehiculo = vehiculos[0];
+        });
 
-      this.firebaseSvc.obtenerVehiculoPorUserId(this.id).subscribe((vehiculos) => {
-        this.vehiculo = vehiculos[0];
-      });
-
-      const path = `viajes/${this.id}`; // Asegúrate de que este ID sea correcto
-      this.firebaseSvc.getDocument(path).then((doc) => {
-        this.viaje = doc;
-        this.checkReserva(); // Verificar reserva al cargar el viaje
-      }).catch((error) => {
+        const path = `viajes/${this.id}`;
+        this.viaje = await this.firebaseSvc.getDocument(path);
+        await this.checkReserva(); // Verificar reserva al cargar el viaje
+      } catch (error) {
         console.error("Error getting document:", error);
-      });
+      } finally {
+        await this.utils.dismissLoading(); // Ocultar loading
+      }
     }
   }
 
@@ -46,17 +55,11 @@ export class ConfirmacionPage implements OnInit {
     try {
       const reservaDoc = await this.firebaseSvc.getDocument(`users/${userId}/reservas/${this.id}`);
       // Verifica si el documento de reserva existe
-      if (reservaDoc !== undefined) {
-        this.reservado = true; // Actualiza el estado de reservado
-      } else {
-        this.reservado = false; // No hay reserva
-      }
+      this.reservado = reservaDoc !== undefined; // Actualiza el estado de reservado
     } catch (error) {
       console.error("Error al verificar la reserva:", error);
     }
   }
-
-
 
   async confirmar() {
     const user = await this.firebaseSvc.getCurrentUser();
@@ -69,24 +72,24 @@ export class ConfirmacionPage implements OnInit {
         color: 'primary',
         position: 'top',
         icon: 'alert-circle-outline'
-
-      })
+      });
       return; // Detén la ejecución si el usuario es el conductor
     }
-    // Asegúrate de que esto sea await
+
     if (this.viaje && this.viaje.asientos !== undefined && this.viaje.asientos > 0) {
-      const path = `viajes/${this.id}`; // Usa this.id en lugar de this.viaje.id
+      const path = `viajes/${this.id}`;
       const updatedAsientos = this.viaje.asientos - 1;
       const reserva = {
         userId: userId,
-        viajeId: this.id, // Usa this.id aquí también
+        viajeId: this.id,
         fechaReserva: new Date().toISOString(),
       };
+
+      await this.utils.presentLoading(); // Mostrar loading al confirmar
+
       try {
         // Actualiza el documento Firestore para los asientos disponibles
         await this.firebaseSvc.updateDocument(path, { asientos: updatedAsientos });
-
-        // Asegúrate de que la ruta de reserva esté correcta
         await this.firebaseSvc.setDocument(`users/${userId}/reservas/${this.id}`, reserva); // Cambia aquí
 
         this.reservado = true; // Actualiza el estado de reservado
@@ -96,26 +99,26 @@ export class ConfirmacionPage implements OnInit {
           color: 'primary',
           position: 'top',
           icon: 'alert-circle-outline'
-
-        })
+        });
         this.verMapa(this.id);
       } catch (error) {
         console.error("Error updating document:", error);
+      } finally {
+        await this.utils.dismissLoading(); // Ocultar loading
       }
     } else {
       console.error("Invalid 'viaje' data or no seats available to decrement.");
     }
   }
 
-
-
   async cancelarReserva() {
     const userId = (await this.firebaseSvc.getCurrentUser()).uid;
     const viajeId = this.id;
     const path = `viajes/${viajeId}`;
 
-    try {
+    await this.utils.presentLoading(); // Mostrar loading al cancelar reserva
 
+    try {
       const currentAsientos = this.viaje.asientos;
       const updatedAsientos = currentAsientos + 1;
 
@@ -128,18 +131,21 @@ export class ConfirmacionPage implements OnInit {
         color: 'primary',
         position: 'top',
         icon: 'alert-circle-outline'
-      })
+      });
       this.router.navigate(["/home"]);
     } catch (error) {
       console.error("Error cancelando reserva:", error);
+    } finally {
+      await this.utils.dismissLoading(); // Ocultar loading
     }
   }
+
   verMapa(id: string) {
     let xtras: NavigationExtras = {
       state: {
         id: id
       }
     };
-    this.router.navigate(["/map"], xtras);
+    this.router.navigate(['/map'], xtras);
   }
 }

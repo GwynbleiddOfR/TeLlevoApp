@@ -10,7 +10,7 @@ export class UtilsService {
   loadingCtrl = inject(LoadingController);
   toastCtrl = inject(ToastController);
   router = inject(Router);
-
+  private loadingElement: HTMLIonLoadingElement;
   loading() {
     return this.loadingCtrl.create({ spinner: 'crescent' });
   }
@@ -30,5 +30,20 @@ export class UtilsService {
 
   getFromlocalStorage(key: string) {
     return JSON.parse(localStorage.getItem(key));
+  }
+
+  async presentLoading() {
+    this.loadingElement = await this.loadingCtrl.create({
+      spinner: 'crescent', // Solo el spinner
+      duration: 0 // Sin duración, se mantiene hasta que se llame a dismiss
+    });
+    await this.loadingElement.present();
+  }
+
+  async dismissLoading() {
+    if (this.loadingElement) {
+      await this.loadingElement.dismiss();
+      this.loadingElement = null; // Limpiar la referencia después de ocultar
+    }
   }
 }

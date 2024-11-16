@@ -10,17 +10,24 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class ListaViajesPage implements OnInit {
   viajes: any[] = [];
+
   constructor(private router: Router) { }
-  firebaseSvc = inject(FirebaseService)
-  utils = inject(UtilsService)
+  firebaseSvc = inject(FirebaseService);
+  utils = inject(UtilsService);
+
   ngOnInit() {
     this.obtenerViajes();
   }
+
+  async ionViewWillEnter() {
+    // Recargar los datos al volver a la vista
+    await this.obtenerViajes();
+  }
+
   async obtenerViajes() {
     const loading = await this.utils.loading();
     loading.present();
 
-    // Usamos 'toPromise' para manejar la promesa de Firestore correctamente
     try {
       const querySnapshot = await this.firebaseSvc.firestore.collection('viajes').get().toPromise();
 
@@ -39,7 +46,11 @@ export class ListaViajesPage implements OnInit {
       loading.dismiss();  // Asegúrate de que el loading se cierra independientemente del resultado
     }
   }
-  verViaje(id: string) {
+
+  async verViaje(id: string) {
+    const loading = await this.utils.loading(); // Mostrar loading al navegar
+    loading.present();
+
     let xtras: NavigationExtras = {
       state: {
         id: id
@@ -47,7 +58,11 @@ export class ListaViajesPage implements OnInit {
     };
 
     // Usar el objeto `xtras` dentro de `navigate`
-    this.router.navigate(['confirmacion'], xtras);
+    this.router.navigate(['confirmacion'], xtras).then(() => {
+      loading.dismiss(); // Ocultar loading después de la navegación
+    }).catch(() => {
+      loading.dismiss(); // Asegúrate de ocultar el loading en caso de error
+    });
   }
 
   // Método para ir al chat
@@ -55,4 +70,3 @@ export class ListaViajesPage implements OnInit {
     this.router.navigate(['chat', { id: viajeId }]); // Navegar al chat con el ID del viaje
   }
 }
-

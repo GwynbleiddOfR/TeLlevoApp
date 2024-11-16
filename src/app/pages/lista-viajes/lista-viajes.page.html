@@ -5,24 +5,11 @@
 </ion-header>
 
 <ion-content>
-  <!-- Filtro -->
-  <ion-segment>
-    <ion-segment-button>
-      <ion-label>Disponibles</ion-label>
-    </ion-segment-button>
-    <ion-segment-button>
-      <ion-label>Programados</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-
   <!-- Lista de Viajes -->
   <ion-grid>
     <ion-row>
       <ion-col size-md="6" size-sm="12" *ngFor="let viaje of viajes">
         <ion-card>
-          <!-- Imagen del viaje -->
-          <img src="assets/images/viaje-ejemplo.jpg" alt="Viaje Ejemplo" class="viaje-imagen" />
-
           <ion-card-header>
             <ion-card-title>
               {{ viaje?.destino }}
@@ -43,12 +30,12 @@
           </ion-card-content>
 
           <!-- Botón para confirmar -->
-          <ion-button expand="block" (click)="verViaje( viaje.id )">
+          <ion-button expand="block" (click)="verViaje( viaje?.id )">
             Confirmar Viaje
           </ion-button>
 
           <!-- Botón para ir al chat -->
-          <ion-button expand="block" (click)="irAlChat(viaje.id)">
+          <ion-button expand="block" (click)="irAlChat(viaje?.id)">
             Ir al chat
           </ion-button>
         </ion-card>
