@@ -21,28 +21,9 @@ export class PerfilUsuarioPage implements OnInit {
   ngOnInit() {
     this.obtenerDatosUsuario();
   }
-
-  async obtenerDatosUsuario() {
-    const loading = await this.utils.loading(); // Mostrar loading
-    loading.present();
-    try {
-      const user = await this.firebaseSvc.auth.currentUser;
-      if (user) {
-        const path = `users/${user.uid}`;
-        console.log(user.uid);
-        this.userData = await this.firebaseSvc.getDocument(path);
-        this.firebaseSvc.obtenerVehiculoPorUserId(user.uid).subscribe((vehiculos) => {
-          this.vehiculoData = vehiculos[0];
-        });
-        console.log(this.vehiculoData);
-      } else {
-        console.warn("No user is currently logged in.");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    } finally {
-      loading.dismiss(); // Ocultar loading al finalizar
-    }
+  obtenerDatosUsuario() {
+    this.userData = this.utils.getFromlocalStorage('user')
+    console.log(this.userData)
   }
   verHistorial() {
     console.log('Accediendo al historial de viajes...');
