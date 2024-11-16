@@ -37,7 +37,6 @@ export class RegistroPage implements OnInit {
         let uid = res.user.uid;
         this.form.controls.uid.setValue(uid);
         this.setUserInfo(uid);
-        this.utilsSvc.routerLink('/inicio-sesion')
       }).catch(error => {
         this.utilsSvc.presentToast({
           message: error.message,
@@ -61,6 +60,8 @@ export class RegistroPage implements OnInit {
 
       this.firebaseSvc.setDocument(path, this.form.value).then(async res => {
         this.utilsSvc.saveInLocalStorage('user', this.form.value)
+        this.utilsSvc.routerLink('/inicio-sesion')
+        this.form.reset()
       }).catch(error => {
         this.utilsSvc.presentToast({
           message: error.message,
