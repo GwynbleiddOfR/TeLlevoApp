@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MenuController } from '@ionic/angular'
+import { NotificacionesService } from './services/notificaciones.service';
 
 @Component({
   selector: 'app-root',
@@ -9,8 +10,12 @@ import { MenuController } from '@ionic/angular'
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private location: Location, private router: Router, private menuCtrl: MenuController) {}
-
+  constructor(private location: Location, private router: Router, private menuCtrl: MenuController, private notificaciones: NotificacionesService) {
+    this.initializeNotifications();
+  }
+  private initializeNotifications() {
+    this.notificaciones.initPushNotifications();
+  }
   navigateTo(route: string) {
     this.router.navigate([route]);
     this.menuCtrl.close();
@@ -32,6 +37,6 @@ export class AppComponent {
 
   isIniciarSesionPage(): boolean {
     return this.router.url === '/inicio-sesion' || this.router.url === '/registro';  // Retorna true si la ruta es /login
-  
+
   }
 }
