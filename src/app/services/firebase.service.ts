@@ -6,13 +6,14 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { getFirestore, setDoc } from '@angular/fire/firestore';
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { Observable } from 'rxjs';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
   auth = inject(AngularFireAuth);
   firestore = inject(AngularFirestore);
-
+  realtime = inject(AngularFireDatabase);
   signIn(user: User) {
     return signInWithEmailAndPassword(getAuth(), user.email, user.password)
   }
@@ -56,5 +57,19 @@ export class FirebaseService {
   }
   deleteDocument(path: string) {
     return deleteDoc(doc(getFirestore(), path));
+  }
+
+  getRealtimeData(path: string) {
+    return this.realtime.object(path).valueChanges();
+  }
+
+  setRealtimeData(path: string, data: any) {
+    return this.realtime.object(path).set(data);
+  }
+  deleteRealtimeData(path: string) {
+    return this.realtime.object(path).remove();
+  }
+  updateRealtimeData(path: string, data: any) {
+    return this.realtime.object(path).update(data);
   }
 }

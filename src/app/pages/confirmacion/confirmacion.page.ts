@@ -40,7 +40,15 @@ export class ConfirmacionPage implements OnInit {
         });
 
         const path = `viajes/${this.id}`;
-        this.viaje = await this.firebaseSvc.getDocument(path);
+        this.firebaseSvc.getRealtimeData(path).subscribe({
+          next: (viaje) => {
+            this.viaje = viaje; // Update the trip data in real time
+            console.log('Viaje:', this.viaje);
+          },
+          error: (error) => {
+            console.error('Error fetching viaje:', error);
+          },
+        });
         await this.checkReserva(); // Verificar reserva al cargar el viaje
       } catch (error) {
         console.error("Error getting document:", error);
@@ -53,7 +61,7 @@ export class ConfirmacionPage implements OnInit {
   async checkReserva() {
     const userId = (await this.firebaseSvc.getCurrentUser()).uid;
     try {
-      const reservaDoc = await this.firebaseSvc.getDocument(`users/${userId}/reservas/${this.id}`);
+      const reservaDoc = await this.firebaseSvc.getRealtimeData(`users/${userId}/reservas/${this.id}`);
       // Verifica si el documento de reserva existe
       this.reservado = reservaDoc !== undefined; // Actualiza el estado de reservado
     } catch (error) {
@@ -89,8 +97,8 @@ export class ConfirmacionPage implements OnInit {
 
       try {
         // Actualiza el documento Firestore para los asientos disponibles
-        await this.firebaseSvc.updateDocument(path, { asientos: updatedAsientos });
-        await this.firebaseSvc.setDocument(`users/${userId}/reservas/${this.id}`, reserva); // Cambia aquí
+        await this.firebaseSvc.updateRealtimeData(path, { asientos: updatedAsientos });
+        await this.firebaseSvc.setRealtimeData(`users/${userId}/reservas/${this.id}`, reserva); // Cambia aquí
 
         this.reservado = true; // Actualiza el estado de reservado
         this.utils.presentToast({
@@ -122,8 +130,8 @@ export class ConfirmacionPage implements OnInit {
       const currentAsientos = this.viaje.asientos;
       const updatedAsientos = currentAsientos + 1;
 
-      await this.firebaseSvc.deleteDocument(`/users/${userId}/reservas/${viajeId}`);
-      await this.firebaseSvc.updateDocument(path, { asientos: updatedAsientos });
+      await this.firebaseSvc.deleteRealtimeData(`/users/${userId}/reservas/${viajeId}`);
+      await this.firebaseSvc.updateRealtimeData(path, { asientos: updatedAsientos });
       this.reservado = false; // Actualiza el estado de reservado
       this.utils.presentToast({
         message: "Reserva cancelada",

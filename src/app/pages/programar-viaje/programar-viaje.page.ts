@@ -71,7 +71,7 @@ export class ProgramarViajePage implements OnInit {
           };
 
           const path = `viajes/${user.uid}`;
-          await this.firebaseSvc.setDocument(path, viajeData); // Save the trip data
+          await this.firebaseSvc.setRealtimeData(path, viajeData); // Save the trip data
         }
       } catch (error) {
         console.error('Error confirming trip:', error);

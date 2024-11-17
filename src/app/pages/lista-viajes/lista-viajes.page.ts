@@ -29,21 +29,24 @@ export class ListaViajesPage implements OnInit {
     loading.present();
 
     try {
-      const querySnapshot = await this.firebaseSvc.firestore.collection('viajes').get().toPromise();
+      this.firebaseSvc.realtime
+        .list('viajes')
+        .snapshotChanges() // Listen to the real-time changes
+        .subscribe((querySnapshot) => {
+          this.viajes = []; // Reinicia el array en cada carga
+          querySnapshot.forEach((action) => {
+            const key = action.key; // Get the unique key of each node
+            const data = action.payload.val(); // Retrieve the value (data)
 
-      this.viajes = []; // Reinicia el array en cada carga
-
-      querySnapshot.forEach((doc) => {
-        // Guarda cada documento en el array `viajes`
-        const data = doc.data();
-        if (data && typeof data === 'object') {
-          this.viajes.push({ id: doc.id, ...data });
-        }
-      });
+            if (data && typeof data === 'object') {
+              this.viajes.push({ id: key, ...data });
+            }
+          });
+        });
     } catch (error) {
-      console.error("Error al obtener los viajes:", error);
+      console.error('Error al obtener los viajes:', error);
     } finally {
-      loading.dismiss();  // Asegúrate de que el loading se cierra independientemente del resultado
+      loading.dismiss(); // Asegúrate de que el loading se cierra independientemente del resultado
     }
   }
 
