@@ -35,23 +35,45 @@ export class ConfirmacionPage implements OnInit {
 
       try {
         this.conductor = await this.firebaseSvc.getDocument('users/' + this.id);
+        await this.utils.presentToast({
+          message: "Datos del conductor cargados.",
+          duration: 3000,
+          color: 'success',
+          position: 'top',
+        });
+
         this.firebaseSvc.obtenerVehiculoPorUserId(this.id).subscribe((vehiculos) => {
           this.vehiculo = vehiculos[0];
         });
 
         const path = `viajes/${this.id}`;
         this.firebaseSvc.getRealtimeData(path).subscribe({
-          next: (viaje) => {
+          next: async (viaje) => {
             this.viaje = viaje; // Update the trip data in real time
-            console.log('Viaje:', this.viaje);
+            await this.utils.presentToast({
+              message: "Datos del viaje actualizados.",
+              duration: 3000,
+              color: 'success',
+              position: 'top',
+            });
           },
-          error: (error) => {
-            console.error('Error fetching viaje:', error);
+          error: async (error) => {
+            await this.utils.presentToast({
+              message: "Error al obtener datos del viaje.",
+              duration: 3000,
+              color: 'danger',
+              position: 'top',
+            });
           },
         });
         await this.checkReserva(); // Verificar reserva al cargar el viaje
       } catch (error) {
-        console.error("Error getting document:", error);
+        await this.utils.presentToast({
+          message: "Error al cargar los datos del conductor.",
+          duration: 3000,
+          color: 'danger',
+          position: 'top',
+        });
       } finally {
         await this.utils.dismissLoading(); // Ocultar loading
       }
@@ -61,27 +83,60 @@ export class ConfirmacionPage implements OnInit {
   async checkReserva() {
     const userId = (await this.firebaseSvc.getCurrentUser()).uid;
     try {
-      const reservaDoc = await this.firebaseSvc.getRealtimeData(`users/${userId}/reservas/${this.id}`);
-      // Verifica si el documento de reserva existe
-      this.reservado = reservaDoc !== undefined; // Actualiza el estado de reservado
+      const reservaPath = `users/${userId}/reservas/${this.id}`;
+      this.firebaseSvc.getRealtimeData(reservaPath).subscribe({
+        next: async (reservaDoc) => {
+          if (reservaDoc) {
+            this.reservado = true;
+            await this.utils.presentToast({
+              message: "Reserva encontrada.",
+              duration: 3000,
+              color: 'success',
+              position: 'top',
+            });
+          } else {
+            this.reservado = false;
+            await this.utils.presentToast({
+              message: "No tienes una reserva activa.",
+              duration: 3000,
+              color: 'warning',
+              position: 'top',
+            });
+          }
+        },
+        error: async (error) => {
+          this.reservado = false;
+          await this.utils.presentToast({
+            message: "Error al verificar la reserva. Intenta nuevamente.",
+            duration: 3000,
+            color: 'danger',
+            position: 'top',
+          });
+        },
+      });
     } catch (error) {
-      console.error("Error al verificar la reserva:", error);
+      this.reservado = false;
+      await this.utils.presentToast({
+        message: "Error inesperado al verificar la reserva.",
+        duration: 3000,
+        color: 'danger',
+        position: 'top',
+      });
     }
   }
 
   async confirmar() {
     const user = await this.firebaseSvc.getCurrentUser();
-    const userId = user.uid; // Asegúrate de obtener el ID del usuario correctamente
-    // Verifica si el usuario es el conductor del viaje
+    const userId = user.uid;
     if (this.conductor && this.conductor.uid === userId) {
-      this.utils.presentToast({
-        message: "No puedes reservar tu propio viaje",
+      await this.utils.presentToast({
+        message: "No puedes reservar tu propio viaje.",
         duration: 5000,
         color: 'primary',
         position: 'top',
-        icon: 'alert-circle-outline'
+        icon: 'alert-circle-outline',
       });
-      return; // Detén la ejecución si el usuario es el conductor
+      return;
     }
 
     if (this.viaje && this.viaje.asientos !== undefined && this.viaje.asientos > 0) {
@@ -93,29 +148,40 @@ export class ConfirmacionPage implements OnInit {
         fechaReserva: new Date().toISOString(),
       };
 
-      await this.utils.presentLoading(); // Mostrar loading al confirmar
+      await this.utils.presentLoading();
 
       try {
-        // Actualiza el documento Firestore para los asientos disponibles
         await this.firebaseSvc.updateRealtimeData(path, { asientos: updatedAsientos });
-        await this.firebaseSvc.setRealtimeData(`users/${userId}/reservas/${this.id}`, reserva); // Cambia aquí
+        await this.firebaseSvc.setRealtimeData(`users/${userId}/reservas/${this.id}`, reserva);
 
-        this.reservado = true; // Actualiza el estado de reservado
-        this.utils.presentToast({
-          message: "Reserva exitosa",
+        this.reservado = true;
+        this.utils.saveInLocalStorage('viaje', this.viaje);
+        this.utils.saveInLocalStorage('conductor', this.conductor);
+        this.utils.saveInLocalStorage('vehiculo', this.vehiculo);
+        await this.utils.presentToast({
+          message: "Reserva exitosa.",
           duration: 5000,
-          color: 'primary',
+          color: 'success',
           position: 'top',
-          icon: 'alert-circle-outline'
         });
         this.verMapa(this.id);
       } catch (error) {
-        console.error("Error updating document:", error);
+        await this.utils.presentToast({
+          message: "Error al confirmar la reserva.",
+          duration: 3000,
+          color: 'danger',
+          position: 'top',
+        });
       } finally {
-        await this.utils.dismissLoading(); // Ocultar loading
+        await this.utils.dismissLoading();
       }
     } else {
-      console.error("Invalid 'viaje' data or no seats available to decrement.");
+      await this.utils.presentToast({
+        message: "Datos de viaje inválidos o sin asientos disponibles.",
+        duration: 3000,
+        color: 'warning',
+        position: 'top',
+      });
     }
   }
 
@@ -124,7 +190,7 @@ export class ConfirmacionPage implements OnInit {
     const viajeId = this.id;
     const path = `viajes/${viajeId}`;
 
-    await this.utils.presentLoading(); // Mostrar loading al cancelar reserva
+    await this.utils.presentLoading();
 
     try {
       const currentAsientos = this.viaje.asientos;
@@ -132,27 +198,32 @@ export class ConfirmacionPage implements OnInit {
 
       await this.firebaseSvc.deleteRealtimeData(`/users/${userId}/reservas/${viajeId}`);
       await this.firebaseSvc.updateRealtimeData(path, { asientos: updatedAsientos });
-      this.reservado = false; // Actualiza el estado de reservado
-      this.utils.presentToast({
-        message: "Reserva cancelada",
+      this.reservado = false;
+
+      await this.utils.presentToast({
+        message: "Reserva cancelada.",
         duration: 5000,
         color: 'primary',
         position: 'top',
-        icon: 'alert-circle-outline'
       });
       this.router.navigate(["/home"]);
     } catch (error) {
-      console.error("Error cancelando reserva:", error);
+      await this.utils.presentToast({
+        message: "Error al cancelar la reserva.",
+        duration: 3000,
+        color: 'danger',
+        position: 'top',
+      });
     } finally {
-      await this.utils.dismissLoading(); // Ocultar loading
+      await this.utils.dismissLoading();
     }
   }
 
   verMapa(id: string) {
     let xtras: NavigationExtras = {
       state: {
-        id: id
-      }
+        id: id,
+      },
     };
     this.router.navigate(['/map'], xtras);
   }
