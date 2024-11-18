@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { ChatService } from 'src/app/services/chat.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { NotificacionesService } from 'src/app/services/notificaciones.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
@@ -18,7 +20,7 @@ export class ConfirmacionPage implements OnInit {
   constructor(private router: Router) { }
   firebaseSvc = inject(FirebaseService);
   utils = inject(UtilsService);
-
+  chat = inject(ChatService);
   async ngOnInit() {
     await this.cargarDatos();
   }
@@ -158,6 +160,7 @@ export class ConfirmacionPage implements OnInit {
         this.utils.saveInLocalStorage('viaje', this.viaje);
         this.utils.saveInLocalStorage('conductor', this.conductor);
         this.utils.saveInLocalStorage('vehiculo', this.vehiculo);
+        this.chat.sendMessage(this.id, 'Sistema', `¡Reserva confirmada por ${user.displayName}!`);
         await this.utils.presentToast({
           message: "Reserva exitosa.",
           duration: 5000,
@@ -186,6 +189,7 @@ export class ConfirmacionPage implements OnInit {
   }
 
   async cancelarReserva() {
+    const user = await this.firebaseSvc.getCurrentUser();
     const userId = (await this.firebaseSvc.getCurrentUser()).uid;
     const viajeId = this.id;
     const path = `viajes/${viajeId}`;
@@ -199,7 +203,7 @@ export class ConfirmacionPage implements OnInit {
       await this.firebaseSvc.deleteRealtimeData(`/users/${userId}/reservas/${viajeId}`);
       await this.firebaseSvc.updateRealtimeData(path, { asientos: updatedAsientos });
       this.reservado = false;
-
+      this.chat.sendMessage(viajeId, 'Sistema', `¡Reserva cancelada por ${user.displayName}!`);
       await this.utils.presentToast({
         message: "Reserva cancelada.",
         duration: 5000,

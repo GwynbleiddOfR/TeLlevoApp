@@ -10,11 +10,7 @@ import { NotificacionesService } from './services/notificaciones.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(private location: Location, private router: Router, private menuCtrl: MenuController, private notificaciones: NotificacionesService) {
-    this.initializeNotifications();
-  }
-  private initializeNotifications() {
-    this.notificaciones.initPushNotifications();
+  constructor(private location: Location, private router: Router, private menuCtrl: MenuController,) {
   }
   navigateTo(route: string) {
     this.router.navigate([route]);
