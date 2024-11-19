@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { Platform } from '@ionic/angular';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
 import { UtilsService } from 'src/app/services/utils.service';
@@ -12,10 +13,13 @@ export class HomePage implements OnInit {
   firebase = inject(FirebaseService);
   noti = inject(NotificacionesService);
   utils = inject(UtilsService);
-  constructor() { }
+  constructor(private platform: Platform) { }
 
   ngOnInit() {
-    this.noti.requestPermission();
+    if (this.platform.is('capacitor')) {
+      this.noti.requestPermission();
+      this.saveToken();
+    }
   }
 
   saveToken() {
