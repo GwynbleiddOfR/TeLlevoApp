@@ -22,11 +22,14 @@ export class HomePage implements OnInit {
     }
   }
 
-  saveToken() {
-    const token = this.noti.getToken();
-    const user = this.utils.getFromlocalStorage('user');
-    console.log('token', token);
-    this.firebase.updateDocument(`users/${user.uid}`, { 'token': token });
+  async saveToken() {
+    try {
+      const token = await this.noti.getToken();
+      const user = this.utils.getFromlocalStorage('user');
+      console.log('token', token);
+      this.firebase.updateDocument(`users/${user.uid}`, { 'token': token });
+    } catch (error) {
+      console.error('Error getting token', error);
+    }
   }
-
 }

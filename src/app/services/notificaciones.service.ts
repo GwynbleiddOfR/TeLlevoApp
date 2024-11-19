@@ -45,9 +45,16 @@ export class NotificacionesService {
     });
   }
 
-  getToken() {
-    PushNotifications.addListener('registration', (token: Token) => {
-      this.utils.saveInLocalStorage('token', token.value);
+  getToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      PushNotifications.addListener('registration', (token: Token) => {
+        this.utils.saveInLocalStorage('token', token.value);
+        resolve(token.value);
+      });
+
+      PushNotifications.addListener('registrationError', (error: any) => {
+        reject(error);
+      });
     });
   }
 }
