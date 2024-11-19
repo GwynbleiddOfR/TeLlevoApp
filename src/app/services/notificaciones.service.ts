@@ -1,16 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { ActionPerformed, PushNotificationSchema, PushNotifications, Token } from '@capacitor/push-notifications';
 import { UtilsService } from './utils.service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class NotificacionesService {
   utils = inject(UtilsService);
+
   constructor() {
   }
-  ngOnInit() {
 
+  ngOnInit() {
   }
+
   requestPermission() {
     // Request permission to use push notifications
     // iOS will prompt user and return if they granted permission or not
@@ -56,5 +59,42 @@ export class NotificacionesService {
         reject(error);
       });
     });
+  }
+
+  async addListeners() {
+    await PushNotifications.addListener('registration', token => {
+      console.info('Registration token: ', token.value);
+    });
+
+    await PushNotifications.addListener('registrationError', err => {
+      console.error('Registration error: ', err.error);
+    });
+
+    await PushNotifications.addListener('pushNotificationReceived', notification => {
+      console.log('Push notification received: ', notification);
+    });
+
+    await PushNotifications.addListener('pushNotificationActionPerformed', notification => {
+      console.log('Push notification action performed', notification.actionId, notification.inputValue);
+    });
+  }
+
+  async registerNotifications() {
+    let permStatus = await PushNotifications.checkPermissions();
+
+    if (permStatus.receive === 'prompt') {
+      permStatus = await PushNotifications.requestPermissions();
+    }
+
+    if (permStatus.receive !== 'granted') {
+      throw new Error('User denied permissions!');
+    }
+
+    await PushNotifications.register();
+  }
+
+  async getDeliveredNotifications() {
+    const notificationList = await PushNotifications.getDeliveredNotifications();
+    console.log('delivered notifications', notificationList);
   }
 }

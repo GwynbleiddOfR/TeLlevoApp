@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
     if (this.platform.is('capacitor')) {
       this.noti.requestPermission();
       this.saveToken();
+      this.noti.getDeliveredNotifications();
     }
   }
 

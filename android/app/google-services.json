@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "874102776496",
+    "firebase_url": "https://tellevoapp-efcd2-default-rtdb.firebaseio.com",
+    "project_id": "tellevoapp-efcd2",
+    "storage_bucket": "tellevoapp-efcd2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:874102776496:android:e43a0abcf324901d131175",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB6qwUzGUSQU3As05a0Iix2m0sowrAktI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
