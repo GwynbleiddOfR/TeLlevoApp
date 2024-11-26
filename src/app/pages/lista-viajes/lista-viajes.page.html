@@ -8,30 +8,30 @@
   <!-- Lista de Viajes -->
   <ion-grid>
     <ion-row>
-      <ion-col size-md="6" size-sm="12" *ngFor="let viaje of viajes">
+      <!-- Ajustamos para que siempre haya una sola columna en cualquier tamaño de pantalla -->
+      <ion-col size="12" *ngFor="let viaje of viajes">
         <ion-card>
           <ion-card-header>
             <ion-card-title>
               {{ viaje?.destino }}
             </ion-card-title>
             <ion-card-subtitle>
-              Sábado, 15 de Noviembre
             </ion-card-subtitle>
           </ion-card-header>
 
           <ion-card-content>
-            <p>Fecha: {{ viaje?.horaSalida | date: 'dd/MM/yyyy' }}</p>
+            <p class="fecha">Fecha: {{ viaje?.horaSalida | date: 'dd/MM/yyyy' }}</p>
             <p>Hora: {{ viaje?.horaSalida | date: 'HH:mm' }}</p>
             <p>Asientos disponibles: {{viaje?.asientos}}</p>
             <ion-item lines="none">
               <ion-label>Costo</ion-label>
-              <span>{{ viaje?.costo }}</span>
+              <span>${{ viaje?.costo }}</span>
             </ion-item>
           </ion-card-content>
 
           <!-- Botón para confirmar -->
-          <ion-button expand="block" (click)="verViaje( viaje?.id )">
-            Confirmar Viaje
+          <ion-button expand="block" (click)="verViaje(viaje?.id)">
+            Confirmar viaje
           </ion-button>
 
           <!-- Botón para ir al chat -->
@@ -43,6 +43,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<style>
-</style>
