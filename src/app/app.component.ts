@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MenuController } from '@ionic/angular'
-import { NotificacionesService } from './services/notificaciones.service';
+import { FirebaseService } from './services/firebase.service';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,7 @@ import { NotificacionesService } from './services/notificaciones.service';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+  firebase = inject(FirebaseService);
   constructor(private location: Location, private router: Router, private menuCtrl: MenuController,) {
   }
   navigateTo(route: string) {
@@ -18,7 +19,8 @@ export class AppComponent {
   }
 
   cerrarSesion() {
-    console.log('Cerrando sesión...');
+    this.firebase.signOut();
+    localStorage.clear()
     this.router.navigate(['/inicio-sesion']);
     this.menuCtrl.close();
   }

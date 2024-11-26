@@ -20,6 +20,9 @@ export class FirebaseService {
   signUp(user: User) {
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password)
   }
+  signOut() {
+    return this.auth.signOut();
+  }
   updateUser(displayName: string) {
     return updateProfile(getAuth().currentUser, { displayName })
   }

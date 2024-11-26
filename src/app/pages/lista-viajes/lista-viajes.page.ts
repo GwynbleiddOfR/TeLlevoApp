@@ -2,6 +2,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { NavigationExtras, Router } from '@angular/router';
 import { UtilsService } from 'src/app/services/utils.service';
+import { Network } from '@capacitor/network';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-lista-viajes',
@@ -11,19 +13,33 @@ import { UtilsService } from 'src/app/services/utils.service';
 export class ListaViajesPage implements OnInit {
   viajes: any[] = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private platform: Platform) { }
   firebaseSvc = inject(FirebaseService);
   utils = inject(UtilsService);
 
   ngOnInit() {
-    this.obtenerViajes();
+    if (this.checkNetwork) {
+      this.obtenerViajes();
+    }
+    else {
+      this.sinInternet();
+    }
   }
 
-  async ionViewWillEnter() {
+  ionViewWillEnter() {
     // Recargar los datos al volver a la vista
-    await this.obtenerViajes();
+    if (this.checkNetwork) {
+      this.obtenerViajes();
+    } else {
+      this.sinInternet();
+    }
   }
-
+  async checkNetwork() {
+    return (await Network.getStatus()).connected;
+  }
+  sinInternet() {
+    this.viajes = this.utils.getFromlocalStorage('viaje');
+  }
   async obtenerViajes() {
     const loading = await this.utils.loading();
     loading.present();
@@ -53,6 +69,7 @@ export class ListaViajesPage implements OnInit {
   async verViaje(id: string) {
     const loading = await this.utils.loading(); // Mostrar loading al navegar
     loading.present();
+    console.log(id);
 
     let xtras: NavigationExtras = {
       state: {
