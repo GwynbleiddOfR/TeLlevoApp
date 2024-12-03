@@ -21,7 +21,10 @@ export class InicioSesionPage implements OnInit {
   firebaseSvc = inject(FirebaseService);
   utilsSvc = inject(UtilsService)
 
-  ngOnInit() {
+  ngOnInit() { 
+    if(this.utilsSvc.getFromlocalStorage('user')!== null){
+      this.utilsSvc.routerLink('home')
+    }
   }
 
   async iniciarSesion() {
