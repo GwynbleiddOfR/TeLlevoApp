@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import * as mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import { Geolocation } from '@capacitor/geolocation';
 import { Router } from '@angular/router';
@@ -67,8 +67,9 @@ export class MapPage implements OnInit {
     if (xtras !== undefined) {
       this.id = xtras["id"];
       const path = `viajes/${this.id}`;
-      this.firebaseSvc.getDocument(path).then((doc) => {
+      this.firebaseSvc.getRealtimeData(path).subscribe((doc) => {
         this.viaje = doc;
+        console.log('Datos del viaje cargados:', this.viaje); // Verifica los datos del viaje
         if (!this.map) {
           this.initializeMap();
         }
@@ -79,34 +80,38 @@ export class MapPage implements OnInit {
   }
 
   initializeMap() {
-    (mapboxgl as any).accessToken = 'pk.eyJ1Ijoic2VhcGlsZW8iLCJhIjoiY20ybnJpZTlhMDlqNzJscHU2NjF1enptMCJ9.aWtLWdpfsRCMSZwJeu_anQ';
-    const savedLocation = localStorage.getItem('mapLocation');
-    const savedZoom = localStorage.getItem('mapZoom');
+    try {
+      mapboxgl.accessToken = 'pk.eyJ1IjoiZi1jLXUiLCJhIjoiY200YWt4OWR6MDEzbzJrbXpmeG11azRmZSJ9.CF9dLV9uCV3lC-FdxiTzew';
+      const savedLocation = localStorage.getItem('mapLocation');
+      const savedZoom = localStorage.getItem('mapZoom');
 
-    const center = savedLocation ? JSON.parse(savedLocation) : this.currentLocation;
-    const zoom = savedZoom ? parseFloat(savedZoom) : 12;
+      const center = savedLocation ? JSON.parse(savedLocation) : this.currentLocation;
+      const zoom = savedZoom ? parseFloat(savedZoom) : 12;
 
-    this.map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: center,
-      zoom: zoom,
-    });
+      this.map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/streets-v11',
+        center: center,
+        zoom: zoom,
+      });
 
-    this.directions = new MapboxDirections({
-      accessToken: (mapboxgl as any).accessToken,
-      unit: 'metric',
-      profile: 'mapbox/driving',
-      interactive: false,
-      controls: {
-        inputs: false, // Ocultar la barra de direcciones
-        instructions: false, // Ocultar instrucciones
-      },
-    });
+      this.directions = new MapboxDirections({
+        accessToken: mapboxgl.accessToken,
+        unit: 'metric',
+        profile: 'mapbox/driving',
+        interactive: false,
+        controls: {
+          inputs: false, // Ocultar la barra de direcciones
+          instructions: false, // Ocultar instrucciones
+        },
+      });
 
-    this.map.addControl(this.directions, 'top-left');
-    if (this.viaje) {
-      this.updateMarkers();
+      this.map.addControl(this.directions, 'top-left');
+      if (this.viaje) {
+        this.updateMarkers();
+      }
+    } catch (error) {
+      console.error('Error al inicializar el mapa:', error);
     }
   }
 
@@ -136,11 +141,10 @@ export class MapPage implements OnInit {
 
   updateMarkers() {
     if (this.viaje) {
-      // Actualizar origen y destino en el mapa
+      // Establecer el origen y destino para la ruta
       this.directions.setOrigin([this.viaje.ubicacionActual.lng, this.viaje.ubicacionActual.lat]);
       this.directions.setDestination([this.viaje.longitud, this.viaje.latitud]);
 
-      // Agregar marcadores
       this.addStartingPointMarker(this.viaje.ubicacionActual.lng, this.viaje.ubicacionActual.lat);
       this.addDestinationMarker(this.viaje.longitud, this.viaje.latitud, this.viaje.destino);
     }
@@ -170,5 +174,16 @@ export class MapPage implements OnInit {
     const marker = new mapboxgl.Marker({ color: 'red' })
       .setLngLat([lng, lat])
       .addTo(this.map);
+
+    this.createPopup(marker, 'Punto de partida', lng, lat);
+  }
+
+  private createPopup(marker: mapboxgl.Marker, text: string, lng: number, lat: number) {
+    const popup = new mapboxgl.Popup({ offset: 25 })
+      .setText(text)
+      .setLngLat([lng, lat])
+      .addTo(this.map);
+
+    marker.setPopup(popup);
   }
 }
