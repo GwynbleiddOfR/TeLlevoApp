@@ -83,7 +83,7 @@ export class ProgramarViajePage implements OnInit {
   }
 
   initializeGeocoder() {
-    mapboxGeocoder.accessToken = 'pk.eyJ1Ijoic2VhcGlsZW8iLCJhIjoiY20ybnJpZTlhMDlqNzJscHU2NjF1enptMCJ9.aWtLWdpfsRCMSZwJeu_anQ'; // Your Mapbox Token
+    mapboxGeocoder.accessToken = 'pk.eyJ1IjoiZi1jLXUiLCJhIjoiY200YWt4OWR6MDEzbzJrbXpmeG11azRmZSJ9.CF9dLV9uCV3lC-FdxiTzew'; // Your Mapbox Token
 
     const geocoder = new mapboxGeocoder({
       accessToken: mapboxGeocoder.accessToken,

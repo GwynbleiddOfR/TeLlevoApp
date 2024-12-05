@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:874102776496:android:e43a0abcf324901d131175",
         "android_client_info": {
-          "package_name": "io.ionic.starter"
+          "package_name": "com.tellevoapp.sf"
         }
       },
       "oauth_client": [],
