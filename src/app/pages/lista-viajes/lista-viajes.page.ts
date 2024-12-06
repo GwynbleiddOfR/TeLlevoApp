@@ -61,6 +61,7 @@ export class ListaViajesPage implements OnInit {
         });
     } catch (error) {
       console.error('Error al obtener los viajes:', error);
+      this.viajes = this.utils.getFromlocalStorage('viaje');
     } finally {
       loading.dismiss(); // Asegúrate de que el loading se cierra independientemente del resultado
     }

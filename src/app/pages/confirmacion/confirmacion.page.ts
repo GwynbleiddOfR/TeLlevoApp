@@ -24,29 +24,11 @@ export class ConfirmacionPage implements OnInit {
   utils = inject(UtilsService);
   chat = inject(ChatService);
   ngOnInit() {
-    if (this.checkNetwork()) {
-      this.cargarDatos();
-    } else {
-      this.sinInternet();
-    }
+    this.cargarDatos();
   }
 
   ionViewWillEnter() {
-    if (this.checkNetwork) {
-      this.cargarDatos();
-    } // Recargar datos al volver a la vista
-    else {
-      this.sinInternet();
-    }
-  }
-  async checkNetwork() {
-    return (await Network.getStatus()).connected;
-  }
-  sinInternet() {
-    this.checkReserva();
-    this.conductor = this.utils.getFromlocalStorage('conductor');
-    this.vehiculo = this.utils.getFromlocalStorage('vehiculo');
-    this.viaje = this.utils.getFromlocalStorage('viaje');
+    this.cargarDatos();
   }
   async cargarDatos() {
     let xtras = this.router.getCurrentNavigation()?.extras.state;
@@ -89,11 +71,14 @@ export class ConfirmacionPage implements OnInit {
         await this.checkReserva(); // Verificar reserva al cargar el viaje
       } catch (error) {
         await this.utils.presentToast({
-          message: "Error al cargar los datos del conductor.",
+          message: "No tienes conexion a internet",
           duration: 3000,
           color: 'danger',
           position: 'top',
         });
+        this.viaje = this.utils.getFromlocalStorage('viaje');
+        this.conductor = this.utils.getFromlocalStorage('conductor');
+        this.vehiculo = this.utils.getFromlocalStorage('vehiculo');
       } finally {
         await this.utils.dismissLoading(); // Ocultar loading
       }
